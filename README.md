@@ -6,11 +6,11 @@ Repositório criado para o desenvolvimento dos projetos referentes as disciplina
 Integrantes
 ===
 
-Alexandre Mota
-Phelipe Alves
-Paulo Henrique
-Murilo Aires
-Laerte Marçal
-Alexandre Costa
-Wallace Luis
+Alexandre Mota, 
+Phelipe Alves, 
+Paulo Henrique, 
+Murilo Aires, 
+Laerte Marçal, 
+Alexandre Costa, 
+Wallace Luis, 
 Kleudson Rodrigues
