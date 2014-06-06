@@ -1,4 +1,4 @@
-package com.mycompany.persistenciasad.entity;
+package br.ufg.es.sad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,23 +12,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "area")
-public class Area implements java.io.Serializable {
+@Table(name = "departament")
+public class Departament implements java.io.Serializable {
 
     private Integer id;
     private String name;
-    private Set groups = new HashSet(0);
+    private Set<Evaluation> evaluations = new HashSet<Evaluation>(0);
 
-    public Area() {
+    public Departament() {
     }
 
-    public Area(String name) {
+    public Departament(String name) {
         this.name = name;
     }
 
-    public Area(String name, Set groups) {
+    public Departament(String name, Set evaluations) {
         this.name = name;
-        this.groups = groups;
+        this.evaluations = evaluations;
     }
 
     @Id
@@ -52,13 +52,13 @@ public class Area implements java.io.Serializable {
         this.name = name;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "area")
-    public Set getGroups() {
-        return this.groups;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "departament")
+    public Set<Evaluation> getEvaluations() {
+        return this.evaluations;
     }
 
-    public void setGroups(Set groups) {
-        this.groups = groups;
+    public void setEvaluations(Set<Evaluation> evaluations) {
+        this.evaluations = evaluations;
     }
 
 }

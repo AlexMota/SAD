@@ -1,4 +1,4 @@
-package com.mycompany.persistenciasad.entity;
+package br.ufg.es.sad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +23,7 @@ public class Evaluation implements java.io.Serializable {
     private Instructor instructor;
     private int process;
     private int period;
-    private Set radocs = new HashSet(0);
+    private Set<Radoc> radocs = new HashSet<Radoc>(0);
 
     public Evaluation() {
     }
@@ -106,11 +106,11 @@ public class Evaluation implements java.io.Serializable {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "evaluation")
-    public Set getRadocs() {
+    public Set<Radoc> getRadocs() {
         return this.radocs;
     }
 
-    public void setRadocs(Set radocs) {
+    public void setRadocs(Set<Radoc> radocs) {
         this.radocs = radocs;
     }
 

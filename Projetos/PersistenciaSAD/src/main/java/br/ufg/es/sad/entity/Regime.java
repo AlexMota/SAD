@@ -1,4 +1,4 @@
-package com.mycompany.persistenciasad.entity;
+package br.ufg.es.sad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +18,7 @@ public class Regime implements java.io.Serializable {
     private Integer id;
     private String nome;
     private int horas;
-    private Set evaluations = new HashSet(0);
+    private Set<Evaluation> evaluations = new HashSet<Evaluation>(0);
 
     public Regime() {
     }
@@ -65,11 +65,11 @@ public class Regime implements java.io.Serializable {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "regime")
-    public Set getEvaluations() {
+    public Set<Evaluation> getEvaluations() {
         return this.evaluations;
     }
 
-    public void setEvaluations(Set evaluations) {
+    public void setEvaluations(Set<Evaluation> evaluations) {
         this.evaluations = evaluations;
     }
 

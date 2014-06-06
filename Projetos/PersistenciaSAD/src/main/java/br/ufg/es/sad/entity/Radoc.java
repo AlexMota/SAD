@@ -1,4 +1,4 @@
-package com.mycompany.persistenciasad.entity;
+package br.ufg.es.sad.entity;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -24,7 +24,7 @@ public class Radoc implements java.io.Serializable {
     private Evaluation evaluation;
     private Date year;
     private int months;
-    private Set partialResults = new HashSet(0);
+    private Set<PartialResult> partialResults = new HashSet<PartialResult>(0);
 
     public Radoc() {
     }
@@ -84,11 +84,11 @@ public class Radoc implements java.io.Serializable {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "radoc")
-    public Set getPartialResults() {
+    public Set<PartialResult> getPartialResults() {
         return this.partialResults;
     }
 
-    public void setPartialResults(Set partialResults) {
+    public void setPartialResults(Set<PartialResult> partialResults) {
         this.partialResults = partialResults;
     }
 

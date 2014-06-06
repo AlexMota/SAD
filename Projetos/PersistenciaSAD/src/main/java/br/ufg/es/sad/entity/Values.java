@@ -1,4 +1,4 @@
-package com.mycompany.persistenciasad.entity;
+package br.ufg.es.sad.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

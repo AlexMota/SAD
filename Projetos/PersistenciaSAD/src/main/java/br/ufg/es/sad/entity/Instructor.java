@@ -1,4 +1,4 @@
-package com.mycompany.persistenciasad.entity;
+package br.ufg.es.sad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,22 +12,25 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "departament")
-public class Departament implements java.io.Serializable {
+@Table(name = "instructor")
+public class Instructor implements java.io.Serializable {
 
     private Integer id;
     private String name;
-    private Set evaluations = new HashSet(0);
+    private int registration;
+    private Set<Evaluation> evaluations = new HashSet<Evaluation>(0);
 
-    public Departament() {
+    public Instructor() {
     }
 
-    public Departament(String name) {
+    public Instructor(String name, int registration) {
         this.name = name;
+        this.registration = registration;
     }
 
-    public Departament(String name, Set evaluations) {
+    public Instructor(String name, int registration, Set evaluations) {
         this.name = name;
+        this.registration = registration;
         this.evaluations = evaluations;
     }
 
@@ -52,12 +55,21 @@ public class Departament implements java.io.Serializable {
         this.name = name;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "departament")
-    public Set getEvaluations() {
+    @Column(name = "registration", nullable = false)
+    public int getRegistration() {
+        return this.registration;
+    }
+
+    public void setRegistration(int registration) {
+        this.registration = registration;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "instructor")
+    public Set<Evaluation> getEvaluations() {
         return this.evaluations;
     }
 
-    public void setEvaluations(Set evaluations) {
+    public void setEvaluations(Set<Evaluation> evaluations) {
         this.evaluations = evaluations;
     }
 

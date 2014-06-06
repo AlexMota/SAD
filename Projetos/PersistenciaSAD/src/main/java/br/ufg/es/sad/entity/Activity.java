@@ -1,5 +1,7 @@
-package com.mycompany.persistenciasad.entity;
+package br.ufg.es.sad.entity;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,24 +10,30 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "partial_result")
-public class PartialResult implements java.io.Serializable {
+@Table(name = "activity")
+public class Activity implements java.io.Serializable {
 
     private Integer id;
     private Group group;
-    private Radoc radoc;
-    private float value;
+    private String name;
+    private Set<Values> valueses = new HashSet<Values>(0);
 
-    public PartialResult() {
+    public Activity() {
     }
 
-    public PartialResult(Group group, Radoc radoc, float value) {
+    public Activity(Group group, String name) {
         this.group = group;
-        this.radoc = radoc;
-        this.value = value;
+        this.name = name;
+    }
+
+    public Activity(Group group, String name, Set valueses) {
+        this.group = group;
+        this.name = name;
+        this.valueses = valueses;
     }
 
     @Id
@@ -50,23 +58,22 @@ public class PartialResult implements java.io.Serializable {
         this.group = group;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "radoc_id", nullable = false)
-    public Radoc getRadoc() {
-        return this.radoc;
+    @Column(name = "name", nullable = false, length = 45)
+    public String getName() {
+        return this.name;
     }
 
-    public void setRadoc(Radoc radoc) {
-        this.radoc = radoc;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Column(name = "value", nullable = false, precision = 12, scale = 0)
-    public float getValue() {
-        return this.value;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "activity")
+    public Set<Values> getValueses() {
+        return this.valueses;
     }
 
-    public void setValue(float value) {
-        this.value = value;
+    public void setValueses(Set<Values> valueses) {
+        this.valueses = valueses;
     }
 
 }

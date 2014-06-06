@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://invisiblerails.com:3306/phelipea_sad?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">phelipea_sad</property>
-    <property name="hibernate.connection.password">sadsad</property>
-    <mapping class="com.mycompany.persistenciasad.entity.Radoc"/>
-    <mapping class="com.mycompany.persistenciasad.entity.Evaluation"/>
-    <mapping class="com.mycompany.persistenciasad.entity.Departament"/>
-    <mapping class="com.mycompany.persistenciasad.entity.PartialResult"/>
-    <mapping class="com.mycompany.persistenciasad.entity.Regime"/>
-    <mapping class="com.mycompany.persistenciasad.entity.Group"/>
-    <mapping class="com.mycompany.persistenciasad.entity.Activity"/>
-    <mapping class="com.mycompany.persistenciasad.entity.Area"/>
-    <mapping class="com.mycompany.persistenciasad.entity.Instructor"/>
-    <mapping class="com.mycompany.persistenciasad.entity.Values"/>
-  </session-factory>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://invisiblerails.com:3306/phelipea_sad?zeroDateTimeBehavior=convertToNull</property>
+        <property name="hibernate.connection.username">phelipea_sad</property>
+        <property name="hibernate.connection.password">sadsad</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+       
+        <mapping class="br.ufg.es.sad.entity.Evaluation"/>
+        <mapping class="br.ufg.es.sad.entity.Departament"/>
+        <mapping class="br.ufg.es.sad.entity.PartialResult"/>
+        <mapping class="br.ufg.es.sad.entity.Regime"/>
+        <mapping class="br.ufg.es.sad.entity.Group"/>
+        <mapping class="br.ufg.es.sad.entity.Activity"/>
+        <mapping class="br.ufg.es.sad.entity.Area"/>
+        <mapping class="br.ufg.es.sad.entity.Instructor"/>
+        <mapping class="br.ufg.es.sad.entity.Values"/>
+        <mapping class="br.ufg.es.sad.entity.Radoc"/>
+        
+    </session-factory>
 </hibernate-configuration>

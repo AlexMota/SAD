@@ -1,4 +1,4 @@
-package com.mycompany.persistenciasad.entity;
+package br.ufg.es.sad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,8 +20,8 @@ public class Group implements java.io.Serializable {
     private Integer id;
     private Area area;
     private String name;
-    private Set activities = new HashSet(0);
-    private Set partialResults = new HashSet(0);
+    private Set<Activity> activities = new HashSet<Activity>(0);
+    private Set<PartialResult> partialResults = new HashSet<PartialResult>(0);
 
     public Group() {
     }
@@ -70,20 +70,20 @@ public class Group implements java.io.Serializable {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
-    public Set getActivities() {
+    public Set<Activity> getActivities() {
         return this.activities;
     }
 
-    public void setActivities(Set activities) {
+    public void setActivities(Set<Activity> activities) {
         this.activities = activities;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
-    public Set getPartialResults() {
+    public Set<PartialResult> getPartialResults() {
         return this.partialResults;
     }
 
-    public void setPartialResults(Set partialResults) {
+    public void setPartialResults(Set<PartialResult> partialResults) {
         this.partialResults = partialResults;
     }
 
