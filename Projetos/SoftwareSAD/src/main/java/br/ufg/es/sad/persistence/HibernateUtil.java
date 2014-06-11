@@ -1,31 +1,45 @@
 package br.ufg.es.sad.persistence;
 
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.classic.Session;
 
 /**
- * Hibernate Utility class with a convenient method to get Session Factory
- * object.
+ * Classe utilitária para obtermos a sessão, iniciar a transação, commit, fechar
+ * sessão e etc.
  *
  * @author Phelipe
  */
 public class HibernateUtil {
 
-    private static final SessionFactory sessionFactory;
+    private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
-    static {
-        try {
-            // Create the SessionFactory from standard (hibernate.cfg.xml) 
-            // config file.
-            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
-        } catch (Throwable ex) {
-            // Log the exception. 
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
+    private static final ThreadLocal<Session> threadLocal = new ThreadLocal<Session>();
+
+    public static Session getSession() {
+
+        Session session = threadLocal.get();
+
+        if (session == null) {
+            session = sessionFactory.openSession();
+            threadLocal.set(session);
         }
+        return session;
     }
 
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public static void beginTransaction() {
+        getSession().beginTransaction();
+    }
+
+    public static void commitTransaction() {
+        getSession().getTransaction().commit();
+    }
+
+    public static void rollBackTransaction() {
+        getSession().getTransaction().rollback();
+    }
+
+    public static void closeSession() {
+        getSession().close();
     }
 }

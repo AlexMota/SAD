@@ -9,9 +9,13 @@
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
+        
         <mapping class="br.ufg.es.sad.entity.Resolucao"/>
         <mapping class="br.ufg.es.sad.entity.Grupo"/>
         <mapping class="br.ufg.es.sad.entity.Atividade"/>
         <mapping class="br.ufg.es.sad.entity.Valor"/>
+                
     </session-factory>
 </hibernate-configuration>

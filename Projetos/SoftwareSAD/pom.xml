@@ -47,6 +47,11 @@
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>3.1.0.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>3.6.10.Final</version>
         </dependency>
@@ -57,11 +62,25 @@
             <version>1.1</version>
         </dependency>
         
+        <!-- Hibernate library dependecy start -->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        
         <!-- Generic DAO -->
+        <!-- This first dependency includes all the JPA implementations for the DAOs -->
         <dependency>
             <groupId>com.googlecode.genericdao</groupId>
-            <artifactId>dao-hibernate</artifactId>
-            <version>1.2.0</version>
+            <artifactId>dao</artifactId>
+            <version>1.2.0</version> <!-- use current version -->
+        </dependency>
+        <!-- This second one includes the Hibernate Entity Manager plugin for the framework -->
+        <dependency>
+            <groupId>com.googlecode.genericdao</groupId>
+            <artifactId>search-jpa-hibernate</artifactId>
+            <version>1.2.0</version> <!-- use current version -->
         </dependency>
         
         <!-- JUNIT -->
@@ -78,10 +97,32 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.7</version>
         </dependency>
-        <dependency>
-            <groupId>unknown.binary</groupId>
-            <artifactId>mysql-connector-java-5.1.23-bin</artifactId>
-            <version>SNAPSHOT</version>
-        </dependency>
     </dependencies>
+    
+    <!--
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeProjectDependencies>true</includeProjectDependencies>
+                    <includePluginDependencies>true</includePluginDependencies>
+                    <executableDependency>
+                        <groupId>org.codehaus.mojo</groupId>  
+                        <artifactId>exec-maven-plugin</artifactId>                                    
+                    </executableDependency>
+                    <mainClass>br.ufg.es.sad.App</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build> -->
 </project>

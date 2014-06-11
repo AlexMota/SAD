@@ -40,6 +40,11 @@ public class Resolucao implements java.io.Serializable {
 
     public Resolucao() {
     }
+    
+    public Resolucao(String nome, Date ano) {
+        this.nome = nome;
+        this.ano = ano;
+    }
 
     public Resolucao(String nome, Date ano, Set grupos) {
         this.nome = nome;
@@ -78,5 +83,12 @@ public class Resolucao implements java.io.Serializable {
     public void setGrupos(Set<Grupo> grupos) {
         this.grupos = grupos;
     }
+
+    @Override
+    public String toString() {
+        return "Id: " + id + " Nome:  " + nome + " Ano: " + ano;
+    }
+    
+    
 
 }
