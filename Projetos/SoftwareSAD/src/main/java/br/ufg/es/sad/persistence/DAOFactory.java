@@ -31,7 +31,7 @@ public abstract class DAOFactory {
     }
 
     public abstract IGrupoDAO getGrupoDAO();
-
+    
     public abstract IAtividadeDAO getAtividadeDAO();
 
     public abstract IResolucaoDAO getResolucaoDAO();

@@ -1,6 +1,5 @@
 package br.ufg.es.sad.entity;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -13,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "resolucao")
@@ -28,28 +25,22 @@ public class Resolucao implements java.io.Serializable {
     @Column(name = "nome", length = 45)
     private String nome;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "ano", length = 0)
-    private Date ano;
-    
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "grupo_resolucao", catalog = "resolucao", joinColumns = {
+    @JoinTable(name = "atividade_resolucao", catalog = "phelipea_sad", joinColumns = {
         @JoinColumn(name = "resolucao_id", nullable = false, updatable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "grupo_id", nullable = false, updatable = false)})
-    private Set<Grupo> grupos = new HashSet<Grupo>(0);
+        @JoinColumn(name = "atividade_id", nullable = false, updatable = false)})
+    private Set<Atividade> atividades = new HashSet<Atividade>(0);
 
     public Resolucao() {
     }
-    
-    public Resolucao(String nome, Date ano) {
+
+    public Resolucao(String nome) {
         this.nome = nome;
-        this.ano = ano;
     }
 
-    public Resolucao(String nome, Date ano, Set grupos) {
+    public Resolucao(String nome, Set atividades) {
         this.nome = nome;
-        this.ano = ano;
-        this.grupos = grupos;
+        this.atividades = atividades;
     }
 
     public Integer getId() {
@@ -68,25 +59,17 @@ public class Resolucao implements java.io.Serializable {
         this.nome = nome;
     }
 
-    public Date getAno() {
-        return this.ano;
+    public Set<Atividade> getAtividades() {
+        return this.atividades;
     }
 
-    public void setAno(Date ano) {
-        this.ano = ano;
-    }
-
-    public Set<Grupo> getGrupos() {
-        return this.grupos;
-    }
-
-    public void setGrupos(Set<Grupo> grupos) {
-        this.grupos = grupos;
+    public void setAtividades(Set<Atividade> atividades) {
+        this.atividades = atividades;
     }
 
     @Override
     public String toString() {
-        return "Id: " + id + " Nome:  " + nome + " Ano: " + ano;
+        return "Resolução -> "+ "Id: " + id + " Nome: " + nome;
     }
     
     

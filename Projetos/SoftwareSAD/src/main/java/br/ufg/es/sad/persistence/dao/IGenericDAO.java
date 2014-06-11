@@ -9,7 +9,7 @@ import java.util.List;
  * @param <T> a classe, a entidade
  * @param <Type> representa o tipo do Id da entidade
  */
-public interface IGenericDAO<T, Type extends Serializable> {
+public interface IGenericDAO<T , Type extends Serializable> {
 
     void beginTransaction();
 
@@ -18,6 +18,8 @@ public interface IGenericDAO<T, Type extends Serializable> {
     void salvar(T object);
 
     void excluir(T object);
+    
+    void excluir(Type id);
 
     List<T> listar();
 }

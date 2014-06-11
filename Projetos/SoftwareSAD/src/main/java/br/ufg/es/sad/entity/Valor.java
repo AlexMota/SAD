@@ -1,13 +1,14 @@
 package br.ufg.es.sad.entity;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,23 +20,27 @@ public class Valor implements java.io.Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "atividade_id", nullable = false)
-    private Atividade atividade;
-
     @Column(name = "peso", nullable = false)
     private int peso;
 
     @Column(name = "pontuacao", nullable = false)
     private int pontuacao;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "valor")
+    private Set<Atividade> atividades = new HashSet<Atividade>(0);
+
     public Valor() {
     }
 
-    public Valor(Atividade atividade, int peso, int pontuacao) {
-        this.atividade = atividade;
+    public Valor(int peso, int pontuacao) {
         this.peso = peso;
         this.pontuacao = pontuacao;
+    }
+
+    public Valor(int peso, int pontuacao, Set<Atividade> atividades) {
+        this.peso = peso;
+        this.pontuacao = pontuacao;
+        this.atividades = atividades;
     }
 
     public Integer getId() {
@@ -44,14 +49,6 @@ public class Valor implements java.io.Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Atividade getAtividade() {
-        return this.atividade;
-    }
-
-    public void setAtividade(Atividade atividade) {
-        this.atividade = atividade;
     }
 
     public int getPeso() {
@@ -68,6 +65,14 @@ public class Valor implements java.io.Serializable {
 
     public void setPontuacao(int pontuacao) {
         this.pontuacao = pontuacao;
+    }
+
+    public Set<Atividade> getAtividades() {
+        return this.atividades;
+    }
+
+    public void setAtividades(Set<Atividade> atividades) {
+        this.atividades = atividades;
     }
 
 }

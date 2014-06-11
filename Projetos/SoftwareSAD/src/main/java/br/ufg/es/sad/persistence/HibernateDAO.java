@@ -45,6 +45,10 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements IGen
         HibernateUtil.getSession().delete(entity);
     }
 
+    public void excluir(Type id) {
+        
+    }
+    
     @Override
     public List<T> listar() {
         HibernateUtil.beginTransaction();

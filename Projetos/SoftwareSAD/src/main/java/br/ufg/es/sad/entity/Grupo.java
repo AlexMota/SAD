@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -34,12 +32,6 @@ public class Grupo implements java.io.Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "grupo")
     private Set<Atividade> atividades = new HashSet<Atividade>(0);
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "grupo_resolucao", catalog = "resolucao", joinColumns = {
-        @JoinColumn(name = "grupo_id", nullable = false, updatable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "resolucao_id", nullable = false, updatable = false)})
-    private Set<Resolucao> resolucaos = new HashSet<Resolucao>(0);
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "grupo")
     private Set<Grupo> grupos = new HashSet<Grupo>(0);
 
@@ -50,11 +42,10 @@ public class Grupo implements java.io.Serializable {
         this.nome = nome;
     }
 
-    public Grupo(Grupo grupo, String nome, Set atividades, Set resolucaos, Set grupos) {
+    public Grupo(Grupo grupo, String nome, Set<Atividade> atividades, Set<Grupo> grupos) {
         this.grupo = grupo;
         this.nome = nome;
         this.atividades = atividades;
-        this.resolucaos = resolucaos;
         this.grupos = grupos;
     }
 
@@ -88,14 +79,6 @@ public class Grupo implements java.io.Serializable {
 
     public void setAtividades(Set<Atividade> atividades) {
         this.atividades = atividades;
-    }
-
-    public Set<Resolucao> getResolucaos() {
-        return this.resolucaos;
-    }
-
-    public void setResolucaos(Set<Resolucao> resolucaos) {
-        this.resolucaos = resolucaos;
     }
 
     public Set<Grupo> getGrupos() {

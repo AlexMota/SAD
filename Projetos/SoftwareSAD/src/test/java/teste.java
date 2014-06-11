@@ -13,6 +13,7 @@ import org.hibernate.classic.Session;
 public class teste extends TestCase {
 
     public void insert() {
+        assertTrue(true);
 //        Resolucao resolucao = new Resolucao("Ano  01", toStartOfYear(2014));
 //
 //        Session session = HibernateUtil.getSessionFactory().openSession();
