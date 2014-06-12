@@ -70,8 +70,6 @@ public class Resolucao implements java.io.Serializable {
     @Override
     public String toString() {
         return "Resolução -> "+ "Id: " + id + " Nome: " + nome;
-    }
-    
-    
+    }    
 
 }

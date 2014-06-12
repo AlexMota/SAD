@@ -17,9 +17,9 @@ public interface IGenericDAO<T , Type extends Serializable> {
 
     void salvar(T object);
 
-    void excluir(T object);
+    boolean excluir(T object);
     
-    void excluir(Type id);
+    boolean excluirId(Type id);
 
     List<T> listar();
 }

@@ -9,6 +9,7 @@ import br.ufg.es.sad.persistence.dao.IGenericDAO;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 
 /**
  *
@@ -41,14 +42,26 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements IGen
     }
 
     @Override
-    public void excluir(T entity) {
-        HibernateUtil.getSession().delete(entity);
+    public boolean excluir(T entity) {
+        try {
+            HibernateUtil.getSession().delete(entity);
+            return true;
+        } catch (HibernateException e) {
+            return false;
+        }
     }
 
-    public void excluir(Type id) {
-        
+    @Override
+    public boolean excluirId(Type id) {
+        try {
+            T object = (T) HibernateUtil.getSession().get(persistentClass, id);
+            excluir(object);
+            return true;
+        } catch (HibernateException e) {
+            return false;
+        }
     }
-    
+
     @Override
     public List<T> listar() {
         HibernateUtil.beginTransaction();

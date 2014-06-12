@@ -2,8 +2,6 @@
 import br.ufg.es.sad.entity.Resolucao;
 import br.ufg.es.sad.persistence.DAOFactory;
 import br.ufg.es.sad.persistence.dao.IResolucaoDAO;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,9 +10,12 @@ public class ResolucaoTest {
     public static void main(String[] args) {
         criar();
         listar();
+        excluir();
+        listar();
     }
 
     public static void criar() {
+        System.err.println(" ************ Cria Resolução ************ ");
         Resolucao resolucao_1 = new Resolucao("Ano 1");
         Resolucao resolucao_2 = new Resolucao("Ano 2");
         Resolucao resolucao_3 = new Resolucao("Ano 3");
@@ -31,10 +32,19 @@ public class ResolucaoTest {
     }
 
     public static void excluir() {
+        System.err.println(" ************ Excluir ************ ");
+        DAOFactory factory = DAOFactory.getFactory();
+        IResolucaoDAO resolucaoDAO = factory.getResolucaoDAO();
+        resolucaoDAO.beginTransaction();
         
+        boolean exluido = resolucaoDAO.excluirId(new Integer(1));
+        System.err.println("Exluido: 1 -> " + exluido);
+
+        resolucaoDAO.commitTransaction();
     }
 
     public static void listar() {
+        System.err.println(" ************ Listar ************ ");
         DAOFactory factory = DAOFactory.getFactory();
         IResolucaoDAO resolucaoDAO = factory.getResolucaoDAO();
 
@@ -43,15 +53,5 @@ public class ResolucaoTest {
             Resolucao resolucao = (Resolucao) it.next();
             System.err.println(resolucao.toString());
         }
-    }
-
-    public static Date toStartOfYear(int year) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.DAY_OF_YEAR, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        return calendar.getTime();
     }
 }

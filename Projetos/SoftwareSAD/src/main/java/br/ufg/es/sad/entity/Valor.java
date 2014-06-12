@@ -15,6 +15,8 @@ import javax.persistence.Table;
 @Table(name = "valor")
 public class Valor implements java.io.Serializable {
 
+    public static final int PADRAO = 1;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
@@ -37,10 +39,20 @@ public class Valor implements java.io.Serializable {
         this.pontuacao = pontuacao;
     }
 
+    public Valor(int peso, int pontuacao, Atividade atividade) {
+        this.peso = peso;
+        this.pontuacao = pontuacao;
+        this.atividades.add(atividade);
+    }
+
     public Valor(int peso, int pontuacao, Set<Atividade> atividades) {
         this.peso = peso;
         this.pontuacao = pontuacao;
         this.atividades = atividades;
+    }
+
+    public boolean addAtividade(Atividade atividade) {
+        return this.atividades.add(atividade);
     }
 
     public Integer getId() {
