@@ -2,16 +2,16 @@ package br.ufg.es.sad.persistence.dao.impl;
 
 import br.ufg.es.sad.entity.Grupo;
 import br.ufg.es.sad.persistence.HibernateDAO;
-import br.ufg.es.sad.persistence.dao.IGrupoDAO;
+import br.ufg.es.sad.persistence.dao.GrupoDAO;
 
 /**
  * Classe concreta que terá a implementação específica para cada DAO.
  *
  * @author Phelipe
  */
-public class GrupoDAO extends HibernateDAO<Grupo, Integer> implements IGrupoDAO {
+public class GrupoDAOImpl extends HibernateDAO<Grupo, Integer> implements GrupoDAO {
 
-    public GrupoDAO() {
-        super(IGrupoDAO.class);
+    public GrupoDAOImpl() {
+        super(GrupoDAO.class);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * @param <T> a classe, a entidade
  * @param <Type> representa o tipo do Id da entidade
  */
-public interface IGenericDAO<T , Type extends Serializable> {
+public interface GenericDAO<T , Type extends Serializable> {
 
     void beginTransaction();
 

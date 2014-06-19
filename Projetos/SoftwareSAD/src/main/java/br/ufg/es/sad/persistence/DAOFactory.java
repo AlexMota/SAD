@@ -1,8 +1,8 @@
 package br.ufg.es.sad.persistence;
 
-import br.ufg.es.sad.persistence.dao.IAtividadeDAO;
-import br.ufg.es.sad.persistence.dao.IGrupoDAO;
-import br.ufg.es.sad.persistence.dao.IResolucaoDAO;
+import br.ufg.es.sad.persistence.dao.AtividadeDAO;
+import br.ufg.es.sad.persistence.dao.GrupoDAO;
+import br.ufg.es.sad.persistence.dao.ResolucaoDAO;
 
 /**
  * Responsável por criar as instâncias das classes Hibernate
@@ -30,9 +30,9 @@ public abstract class DAOFactory {
         }
     }
 
-    public abstract IGrupoDAO getGrupoDAO();
+    public abstract GrupoDAO getGrupoDAO();
     
-    public abstract IAtividadeDAO getAtividadeDAO();
+    public abstract AtividadeDAO getAtividadeDAO();
 
-    public abstract IResolucaoDAO getResolucaoDAO();
+    public abstract ResolucaoDAO getResolucaoDAO();
 }

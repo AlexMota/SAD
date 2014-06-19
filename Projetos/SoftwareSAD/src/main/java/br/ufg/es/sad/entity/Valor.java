@@ -15,44 +15,27 @@ import javax.persistence.Table;
 @Table(name = "valor")
 public class Valor implements java.io.Serializable {
 
-    public static final int PADRAO = 1;
-
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "peso", nullable = false)
-    private int peso;
-
-    @Column(name = "pontuacao", nullable = false)
-    private int pontuacao;
+    @Column(name = "valor", nullable = false, precision = 2, scale = 0)
+    private byte valor;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "valor")
-    private Set<Atividade> atividades = new HashSet<Atividade>(0);
+    private Set<AtividadeResolucao> atividadeResolucaos = new HashSet<AtividadeResolucao>(0);
 
     public Valor() {
     }
 
-    public Valor(int peso, int pontuacao) {
-        this.peso = peso;
-        this.pontuacao = pontuacao;
+    public Valor(byte valor) {
+        this.valor = valor;
     }
 
-    public Valor(int peso, int pontuacao, Atividade atividade) {
-        this.peso = peso;
-        this.pontuacao = pontuacao;
-        this.atividades.add(atividade);
-    }
-
-    public Valor(int peso, int pontuacao, Set<Atividade> atividades) {
-        this.peso = peso;
-        this.pontuacao = pontuacao;
-        this.atividades = atividades;
-    }
-
-    public boolean addAtividade(Atividade atividade) {
-        return this.atividades.add(atividade);
+    public Valor(byte valor, Set<AtividadeResolucao> atividadeResolucaos) {
+        this.valor = valor;
+        this.atividadeResolucaos = atividadeResolucaos;
     }
 
     public Integer getId() {
@@ -63,28 +46,20 @@ public class Valor implements java.io.Serializable {
         this.id = id;
     }
 
-    public int getPeso() {
-        return this.peso;
+    public byte getValor() {
+        return this.valor;
     }
 
-    public void setPeso(int peso) {
-        this.peso = peso;
+    public void setValor(byte valor) {
+        this.valor = valor;
     }
 
-    public int getPontuacao() {
-        return this.pontuacao;
+    public Set<AtividadeResolucao> getAtividadeResolucaos() {
+        return this.atividadeResolucaos;
     }
 
-    public void setPontuacao(int pontuacao) {
-        this.pontuacao = pontuacao;
-    }
-
-    public Set<Atividade> getAtividades() {
-        return this.atividades;
-    }
-
-    public void setAtividades(Set<Atividade> atividades) {
-        this.atividades = atividades;
+    public void setAtividadeResolucaos(Set<AtividadeResolucao> atividadeResolucaos) {
+        this.atividadeResolucaos = atividadeResolucaos;
     }
 
 }

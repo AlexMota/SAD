@@ -5,7 +5,7 @@
  */
 package br.ufg.es.sad.persistence;
 
-import br.ufg.es.sad.persistence.dao.IGenericDAO;
+import br.ufg.es.sad.persistence.dao.GenericDAO;
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -17,7 +17,7 @@ import org.hibernate.HibernateException;
  * @param <T>
  * @param <Type>
  */
-public abstract class HibernateDAO<T, Type extends Serializable> implements IGenericDAO<T, Type> {
+public abstract class HibernateDAO<T, Type extends Serializable> implements GenericDAO<T, Type> {
 
     private final Class<T> persistentClass;
 

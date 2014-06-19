@@ -2,6 +2,7 @@ package br.ufg.es.sad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,14 +24,17 @@ public class Resolucao implements java.io.Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "nome", length = 45)
+    @Column(name = "nome", nullable = false, length = 45)
     private String nome;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "atividade_resolucao", catalog = "phelipea_sad", joinColumns = {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resolucao")
+    private Set<AtividadeResolucao> atividadesResolucao = new HashSet<AtividadeResolucao>(0);
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "grupo_resolucao", joinColumns = {
         @JoinColumn(name = "resolucao_id", nullable = false, updatable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "atividade_id", nullable = false, updatable = false)})
-    private Set<Atividade> atividades = new HashSet<Atividade>(0);
+        @JoinColumn(name = "grupo_id", nullable = false, updatable = false)})
+    private Set<Grupo> grupos = new HashSet<Grupo>(0);
 
     public Resolucao() {
     }
@@ -38,9 +43,10 @@ public class Resolucao implements java.io.Serializable {
         this.nome = nome;
     }
 
-    public Resolucao(String nome, Set atividades) {
+    public Resolucao(String nome, Set<AtividadeResolucao> atividadeResolucaos, Set<Grupo> grupos) {
         this.nome = nome;
-        this.atividades = atividades;
+        this.atividadesResolucao = atividadeResolucaos;
+        this.grupos = grupos;
     }
 
     public Integer getId() {
@@ -59,17 +65,33 @@ public class Resolucao implements java.io.Serializable {
         this.nome = nome;
     }
 
-    public Set<Atividade> getAtividades() {
-        return this.atividades;
+    public Set<AtividadeResolucao> getAtividadeResolucaos() {
+        return this.atividadesResolucao;
     }
 
-    public void setAtividades(Set<Atividade> atividades) {
-        this.atividades = atividades;
+    public void setAtividadeResolucaos(Set<AtividadeResolucao> atividadeResolucaos) {
+        this.atividadesResolucao = atividadeResolucaos;
+    }
+
+    public void addAtividadeResolucao(AtividadeResolucao atividadeResolucao) {
+        this.atividadesResolucao.add(atividadeResolucao);
+    }
+
+    public Set<Grupo> getGrupos() {
+        return this.grupos;
+    }
+
+    public void setGrupos(Set<Grupo> grupos) {
+        this.grupos = grupos;
+    }
+
+    public void addGrupo(Grupo grupo) {
+        this.grupos.add(grupo);
     }
 
     @Override
     public String toString() {
-        return "Resolução -> "+ "Id: " + id + " Nome: " + nome;
-    }    
+        return "ID: " + id + " NOME: " + nome;
+    }
 
 }

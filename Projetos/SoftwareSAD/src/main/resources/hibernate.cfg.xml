@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://invisiblerails.com:3306/phelipea_sad?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">phelipea_sad</property>
-    <property name="hibernate.connection.password">sadsad</property>
-    <property name="hibernate.show_sql">true</property>
-    <property name="hibernate.format_sql">true</property>
-    <property name="hibernate.hbm2ddl.auto">create</property>
-    <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
-    <!--
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://invisiblerails.com:3306/phelipea_sad?zeroDateTimeBehavior=convertToNull</property>
+        <property name="hibernate.connection.username">phelipea_sad</property>
+        <property name="hibernate.connection.password">sadsad</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
+        
+        <!--  Mapeamento -->
+        <mapping class="br.ufg.es.sad.entity.AtividadeResolucaoId"/>
+        <mapping class="br.ufg.es.sad.entity.AtividadeResolucao"/>
+        <mapping class="br.ufg.es.sad.entity.Resolucao"/>
+        <mapping class="br.ufg.es.sad.entity.Grupo"/>
         <mapping class="br.ufg.es.sad.entity.Atividade"/>
         <mapping class="br.ufg.es.sad.entity.Valor"/>
-        <mapping class="br.ufg.es.sad.entity.Grupo"/>
-        <mapping class="br.ufg.es.sad.entity.Resolucao"/> -->
-    <mapping class="novo.Resolucao"/>
-    <mapping class="novo.Grupo"/>
-    <mapping class="novo.Atividade"/>
-  </session-factory>
+    </session-factory>
 </hibernate-configuration>
