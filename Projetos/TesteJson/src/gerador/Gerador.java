@@ -25,10 +25,12 @@ public class Gerador {
     private ArrayList<String> nomesProfessores;
     private int quantAtividades;
     private int pesoMaximo;
+    private int quantMaxAtiv;
 
     public Gerador() {
         Gson gson = new Gson();
         quantAtividades = 10;
+        quantMaxAtiv = 5;
         pesoMaximo = 20;
         BufferedReader bufferedReader1 = null;
         BufferedReader bufferedReader2 = null;
@@ -80,4 +82,13 @@ public class Gerador {
 
         return peso;
     }
+    
+    private int geradorQuantAtividades(){
+        Random random = new Random();
+        int quant = 1 + random.nextInt(quantMaxAtiv);
+
+        return quant;
+    }
+    
+    
 }

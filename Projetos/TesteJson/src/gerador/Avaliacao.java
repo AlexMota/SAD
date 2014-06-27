@@ -15,6 +15,7 @@ public class Avaliacao {
     String professor;
     String departamento;
     ArrayList<Atividade> atividades;
+    
 
     public String getProfessor() {
         return professor;
