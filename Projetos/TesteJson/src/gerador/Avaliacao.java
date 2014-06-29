@@ -39,8 +39,6 @@ public class Avaliacao {
 
     public void setAtividades(ArrayList<Atividade> atividades) {
         this.atividades = atividades;
-    }
-    
-    
+    }  
     
 }

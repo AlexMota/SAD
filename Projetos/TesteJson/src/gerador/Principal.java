@@ -14,7 +14,7 @@ public class Principal {
         
         GeradorAvaliacao geraAval = new GeradorAvaliacao();
         
-        geraAval.gerarJsonAvaliacao();
+        geraAval.gerarJsonAvaliacao(100);
         
     }
     

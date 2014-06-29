@@ -26,17 +26,21 @@ public class Gerador {
     private int quantAtividades;
     private int pesoMaximo;
     private int quantMaxAtiv;
+    Gson gson;
 
     public Gerador() {
-        Gson gson = new Gson();
-        quantAtividades = 10;
-        quantMaxAtiv = 5;
-        pesoMaximo = 20;
+        iniciarValores();
+        carregarArquivosJson();
+    }
+
+    private void carregarArquivosJson() {
+        
+        gson = new Gson();
         BufferedReader bufferedReader1 = null;
         BufferedReader bufferedReader2 = null;
         try {
-            bufferedReader1 = new BufferedReader(new FileReader("departamentos.json"));
-            bufferedReader2 = new BufferedReader(new FileReader("professores.json"));
+            bufferedReader1 = new BufferedReader(new FileReader("json_files/departamentos.json"));
+            bufferedReader2 = new BufferedReader(new FileReader("json_files/professores.json"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Gerador.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -47,6 +51,12 @@ public class Gerador {
         }.getType());
     }
 
+    private void iniciarValores() {
+        quantAtividades = 10;
+        quantMaxAtiv = 5;
+        pesoMaximo = 20;
+    }
+
     public String geradorNomeProf() {
 
         Random random = new Random();
@@ -54,7 +64,7 @@ public class Gerador {
         int indiceSorteado = random.nextInt(limite);
 
         return nomesProfessores.get(indiceSorteado);
-        
+
     }
 
     public String geradorDepartamento() {
@@ -64,10 +74,10 @@ public class Gerador {
         int indiceSorteado = random.nextInt(limite);
 
         return departamentos.get(indiceSorteado);
-        
+
     }
 
-    public int geradorId() {
+    private int geradorId() {
 
         Random random = new Random();
         int idAtividade = 1 + random.nextInt(quantAtividades);
@@ -75,20 +85,37 @@ public class Gerador {
         return idAtividade;
     }
 
-    public int geradorPeso() {
+    private int geradorPeso() {
 
         Random random = new Random();
         int peso = 1 + random.nextInt(pesoMaximo);
 
         return peso;
     }
-    
-    private int geradorQuantAtividades(){
+
+    private int geradorQuantAtividades() {
         Random random = new Random();
         int quant = 1 + random.nextInt(quantMaxAtiv);
 
         return quant;
     }
+
+    public ArrayList<Atividade> geradorAtividades(){
     
+    int nAtividades = geradorQuantAtividades();
+    int idAtual;
+    ArrayList<Atividade> atividades = new ArrayList<>();
+    ArrayList<Integer> ids = new ArrayList<>();
+    
+        while (nAtividades > atividades.size()) {            
+            idAtual = geradorId();
+            
+            if(!ids.contains(idAtual)){
+            atividades.add(new Atividade(idAtual, geradorPeso()));
+            ids.add(idAtual);
+            }
+        }
+        return atividades;
+    }
     
 }

@@ -13,28 +13,25 @@ import java.util.ArrayList;
  * @author alunoinf
  */
 public class GeradorAvaliacao {
-    Gerador gerador = new Gerador();
-    Gson gson = new Gson();
+    Gerador gerador;
+    Gson gson;
     ArrayList<Avaliacao> avaliacoes;
     
     
     public GeradorAvaliacao() {
         avaliacoes = new ArrayList<>();
-    
+        gerador = new Gerador();
+        gson = new Gson();
     }
     
     
-    public void gerarJsonAvaliacao(){
+    public void gerarJsonAvaliacao(int quantRegistros){
     
-        for (int i = 0; i < 100; i++) {
-            Avaliacao aval = new Avaliacao();
-            aval.setProfessor(gerador.geradorNomeProf());
-            aval.setDepartamento(gerador.geradorDepartamento());
-            ArrayList<Atividade> atividades = new ArrayList<>();
-            atividades.add(new Atividade(gerador.geradorId(), gerador.geradorPeso()));
-            atividades.add(new Atividade(gerador.geradorId(), gerador.geradorPeso()));
-            atividades.add(new Atividade(gerador.geradorId(), gerador.geradorPeso()));
-            aval.setAtividades(atividades);;
+        for (int i = 0; i < quantRegistros; i++) {
+            Avaliacao aval = new Avaliacao();//Cria uma avaliação, que possui o registro de N docentes
+            aval.setProfessor(gerador.geradorNomeProf());//Gera o nome do professor
+            aval.setDepartamento(gerador.geradorDepartamento());//Gera um departamento
+            aval.setAtividades(gerador.geradorAtividades());//Gera as atividades que ele realizou
             avaliacoes.add(aval);
         }
     
@@ -42,12 +39,13 @@ public class GeradorAvaliacao {
         
                 try {
             
-            FileWriter fileWriter = new FileWriter("avaliacoes.json");
+            FileWriter fileWriter = new FileWriter("json_files/avaliacoes.json");
             fileWriter.write(textoJsonAval);
             fileWriter.close();
            
             
         } catch (Exception e) {
+            
         }
         
     }

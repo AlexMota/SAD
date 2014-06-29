@@ -8,8 +8,8 @@ package gerador;
  *
  * @author alunoinf
  */
-class Atividade {
-    
+public class Atividade {
+
     private int id;
     private int peso;
 
@@ -17,8 +17,6 @@ class Atividade {
         this.id = id;
         this.peso = peso;
     }
-    
-    
 
     public int getId() {
         return id;
@@ -35,7 +33,5 @@ class Atividade {
     public void setPeso(int peso) {
         this.peso = peso;
     }
-    
-    
-    
+
 }
