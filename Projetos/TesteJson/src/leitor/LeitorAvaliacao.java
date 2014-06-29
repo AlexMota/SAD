@@ -36,6 +36,7 @@ public class LeitorAvaliacao {
             try {
                 bufferedReader = new BufferedReader(new FileReader("json_files/avaliacoes.json"));
                 avaliacoes = gson.fromJson(bufferedReader, new TypeToken<ArrayList<Avaliacao>>() {}.getType());
+                System.out.println("Leitura completada!");
 
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(LeitorAvaliacao.class.getName()).log(Level.SEVERE, null, ex);
