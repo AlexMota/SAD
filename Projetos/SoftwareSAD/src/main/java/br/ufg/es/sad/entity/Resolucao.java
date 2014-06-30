@@ -16,18 +16,20 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "resolucao")
+@Table(name = Resolucao.NAME)
 public class Resolucao implements java.io.Serializable {
+
+    public static final String NAME = "resolucao";
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "nome", nullable = false, length = 45)
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resolucao")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resolucao", cascade = CascadeType.ALL)
     private Set<AtividadeResolucao> atividadesResolucao = new HashSet<AtividadeResolucao>(0);
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -74,7 +76,20 @@ public class Resolucao implements java.io.Serializable {
     }
 
     public void addAtividadeResolucao(AtividadeResolucao atividadeResolucao) {
-        this.atividadesResolucao.add(atividadeResolucao);
+        if (atividadeResolucao != null) {
+            this.atividadesResolucao.add(atividadeResolucao);
+        }
+    }
+
+    /**
+     *
+     * Adicionar atividade na resolução
+     *
+     * @param atividade
+     * @param valor
+     */
+    public void addAtividade(Atividade atividade, double valor) {
+        this.atividadesResolucao.add(new AtividadeResolucao(this, atividade, valor));
     }
 
     public Set<Grupo> getGrupos() {
@@ -86,12 +101,13 @@ public class Resolucao implements java.io.Serializable {
     }
 
     public void addGrupo(Grupo grupo) {
-        this.grupos.add(grupo);
+        if (grupo != null) {
+            this.grupos.add(grupo);
+        }
     }
 
     @Override
     public String toString() {
         return "ID: " + id + " NOME: " + nome;
     }
-
 }

@@ -5,21 +5,27 @@ import java.util.List;
 
 /**
  *
- * @author Phelipe
+ * @author Phelipe Alves de Souza
+ * @since 29/06/2014
+ * @version 0.1
  * @param <T> a classe, a entidade
  * @param <Type> representa o tipo do Id da entidade
  */
-public interface GenericDAO<T , Type extends Serializable> {
+public interface GenericDAO<T, Type extends Serializable> {   
 
-    void beginTransaction();
+    T load(Type id);
 
-    void commitTransaction();
+    T get(Type id);
 
-    void salvar(T object);
+    List<T> getAll();
 
-    boolean excluir(T object);
+    void save(T object);
     
-    boolean excluirId(Type id);
+    void save(List<T> objects);
+    
+    boolean delete(T object);
 
-    List<T> listar();
+    boolean deleteById(Type id);
+
+    boolean deleteAll();
 }

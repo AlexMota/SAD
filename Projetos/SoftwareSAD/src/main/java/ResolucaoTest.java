@@ -1,9 +1,6 @@
 
-import br.ufg.es.sad.entity.Atividade;
-import br.ufg.es.sad.entity.AtividadeResolucao;
 import br.ufg.es.sad.entity.Grupo;
 import br.ufg.es.sad.entity.Resolucao;
-import br.ufg.es.sad.entity.Valor;
 import br.ufg.es.sad.persistence.DAOFactory;
 import br.ufg.es.sad.persistence.dao.ResolucaoDAO;
 import java.util.Iterator;
@@ -27,25 +24,19 @@ public class ResolucaoTest {
 
         DAOFactory factory = DAOFactory.getFactory();
         ResolucaoDAO resolucaoDAO = factory.getResolucaoDAO();
-        resolucaoDAO.beginTransaction();
 
-        resolucaoDAO.salvar(resolucao_1);
-        resolucaoDAO.salvar(resolucao_2);
-        resolucaoDAO.salvar(resolucao_3);
-
-        resolucaoDAO.commitTransaction();
+        resolucaoDAO.save(resolucao_1);
+        resolucaoDAO.save(resolucao_2);
+        resolucaoDAO.save(resolucao_3);
     }
 
     public static void test_ResolucaoTest_Excluir() {
         System.err.println(" ************ Excluir ************ ");
         DAOFactory factory = DAOFactory.getFactory();
         ResolucaoDAO resolucaoDAO = factory.getResolucaoDAO();
-        resolucaoDAO.beginTransaction();
 
-        boolean exluido = resolucaoDAO.excluirId(new Integer(1));
+        boolean exluido = resolucaoDAO.deleteById(new Integer(1));
         System.err.println("Exluido: 1 -> " + exluido);
-
-        resolucaoDAO.commitTransaction();
     }
 
     public static void test_ResolucaoTest_Listar() {
@@ -53,7 +44,7 @@ public class ResolucaoTest {
         DAOFactory factory = DAOFactory.getFactory();
         ResolucaoDAO resolucaoDAO = factory.getResolucaoDAO();
 
-        List a = resolucaoDAO.listar();
+        List a = resolucaoDAO.getAll();
         for (Iterator it = a.iterator(); it.hasNext();) {
             Resolucao resolucao = (Resolucao) it.next();
             System.err.println(resolucao.toString());
@@ -64,27 +55,24 @@ public class ResolucaoTest {
         System.err.println(" ************ Adiciona Grupo na Resolução ************ ");
         DAOFactory factory = DAOFactory.getFactory();
         ResolucaoDAO resolucaoDAO = factory.getResolucaoDAO();
-        resolucaoDAO.beginTransaction();
-        
+
         Resolucao resolucao = new Resolucao("Ano com grupo");
         resolucao.addGrupo(new Grupo("ATIVIDADES DE ENSINO"));
         resolucao.addGrupo(new Grupo("PRODUÇÃO INTELECTUAL"));
         resolucao.addGrupo(new Grupo("ATIVIDADES DE PESQUISA E EXTENSÃO"));
         resolucao.addGrupo(new Grupo("ATIVIDADES ADMINISTRATIVAS E DE REPRESENTAÇÃO"));
-        
-        resolucaoDAO.salvar(resolucao);
-        resolucaoDAO.commitTransaction();
-        
-        if(resolucao.getGrupos().size() == 4){
+
+        resolucaoDAO.save(resolucao);
+
+        if (resolucao.getGrupos().size() == 4) {
             for (Grupo grupo : resolucao.getGrupos()) {
                 System.out.println(grupo.toString());
             }
-        }
-        else{
+        } else {
             System.err.println("Erro: test_ResolucaoTest_AdicionarGrupo");
         }
     }
-    
+
     /**
      * TODO: Finalizar o teste
      */
@@ -92,20 +80,17 @@ public class ResolucaoTest {
         System.err.println(" ************ Adiciona Atividade na Resolução ************ ");
         DAOFactory factory = DAOFactory.getFactory();
         ResolucaoDAO resolucaoDAO = factory.getResolucaoDAO();
-        resolucaoDAO.beginTransaction();
-        
+
         Resolucao resolucao = new Resolucao("Ano com atividade");
        //resolucao.addAtividadeResolucao(new AtividadeResolucao(resolucao, new Valor(2), new Atividade("")));
-        
-        resolucaoDAO.salvar(resolucao);
-        resolucaoDAO.commitTransaction();
-        
-        if(resolucao.getGrupos().size() == 4){
+
+        resolucaoDAO.save(resolucao);
+
+        if (resolucao.getGrupos().size() == 4) {
             for (Grupo grupo : resolucao.getGrupos()) {
                 System.out.println(grupo.toString());
             }
-        }
-        else{
+        } else {
             System.err.println("Erro: test_ResolucaoTest_AdicionarGrupo");
         }
     }

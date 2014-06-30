@@ -13,7 +13,7 @@ import br.ufg.es.sad.persistence.dao.impl.ResolucaoDAOImpl;
  * @author Phelipe
  */
 class HibernateDAOFactory extends DAOFactory {
-    
+
     @Override
     public GrupoDAO getGrupoDAO() {
         return new GrupoDAOImpl();

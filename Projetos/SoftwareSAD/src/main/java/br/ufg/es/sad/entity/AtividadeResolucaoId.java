@@ -3,6 +3,10 @@ package br.ufg.es.sad.entity;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ * http://www.mkyong.com/hibernate/hibernate-many-to-many-example-join-table-extra-column-annotation/
+ * @author phelipe
+ */
 @Embeddable
 public class AtividadeResolucaoId implements java.io.Serializable {
 
@@ -12,16 +16,12 @@ public class AtividadeResolucaoId implements java.io.Serializable {
     @Column(name = "resolucao_id", nullable = false)
     private int resolucaoId;
 
-    @Column(name = "valor_id", nullable = false)
-    private int valorId;
-
     public AtividadeResolucaoId() {
     }
 
-    public AtividadeResolucaoId(int atividadeId, int resolucaoId, int valorId) {
+    public AtividadeResolucaoId(int atividadeId, int resolucaoId) {
         this.atividadeId = atividadeId;
         this.resolucaoId = resolucaoId;
-        this.valorId = valorId;
     }
 
     public int getAtividadeId() {
@@ -40,14 +40,6 @@ public class AtividadeResolucaoId implements java.io.Serializable {
         this.resolucaoId = resolucaoId;
     }
 
-    public int getValorId() {
-        return this.valorId;
-    }
-
-    public void setValorId(int valorId) {
-        this.valorId = valorId;
-    }
-
     public boolean equals(Object other) {
         if ((this == other)) {
             return true;
@@ -61,17 +53,6 @@ public class AtividadeResolucaoId implements java.io.Serializable {
         AtividadeResolucaoId castOther = (AtividadeResolucaoId) other;
 
         return (this.getAtividadeId() == castOther.getAtividadeId())
-                && (this.getResolucaoId() == castOther.getResolucaoId())
-                && (this.getValorId() == castOther.getValorId());
+                && (this.getResolucaoId() == castOther.getResolucaoId());
     }
-
-    public int hashCode() {
-        int result = 17;
-
-        result = 37 * result + this.getAtividadeId();
-        result = 37 * result + this.getResolucaoId();
-        result = 37 * result + this.getValorId();
-        return result;
-    }
-
 }

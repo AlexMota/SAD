@@ -1,19 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufg.es.sad.persistence;
 
 import br.ufg.es.sad.persistence.dao.GenericDAO;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 
 /**
  *
- * @author Phelipe
+ * @author Phelipe Alves de Souza
+ * @since 29/06/2014
+ * @version 0.1
  * @param <T>
  * @param <Type>
  */
@@ -26,47 +25,86 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
         this.persistentClass = persistentClass;
     }
 
-    @Override
     public void beginTransaction() {
         HibernateUtil.beginTransaction();
     }
 
-    @Override
     public void commitTransaction() {
         HibernateUtil.commitTransaction();
     }
 
-    @Override
-    public void salvar(T entity) {
-        HibernateUtil.getSession().saveOrUpdate(entity);
+    public T load(Type id) throws EntityNotFoundException {
+        T entity = get(id);
+        if (entity == null) {
+            throw new EntityNotFoundException("Entidade");
+        }
+        return entity;
     }
 
     @Override
-    public boolean excluir(T entity) {
+    public T get(Type id) {
+        beginTransaction();
+        T entity = (T) HibernateUtil.getSession().get(persistentClass, id);
+        commitTransaction();
+        return entity;
+    }
+
+    @Override
+    public List<T> getAll() {
+        HibernateUtil.beginTransaction();
+        Criteria criteria = HibernateUtil.getSession().createCriteria(persistentClass);
+        return criteria.list();
+    }
+
+    @Override
+    public void save(T object) {
+        beginTransaction();
+        HibernateUtil.getSession().saveOrUpdate(object);
+        commitTransaction();
+    }
+
+    public void save(List<T> objects) {
+        for (T object : objects) {
+            save(object);
+        }
+    }
+
+    @Override
+    public boolean delete(T entity) {
+        beginTransaction();
         try {
             HibernateUtil.getSession().delete(entity);
             return true;
         } catch (HibernateException e) {
             return false;
+        } finally {
+            commitTransaction();
         }
     }
 
     @Override
-    public boolean excluirId(Type id) {
+    public boolean deleteById(Type id) {
         try {
             T object = (T) HibernateUtil.getSession().get(persistentClass, id);
-            excluir(object);
-            return true;
+            return delete(object);
         } catch (HibernateException e) {
             return false;
         }
     }
 
-    @Override
-    public List<T> listar() {
-        HibernateUtil.beginTransaction();
-        Criteria criteria = HibernateUtil.getSession().createCriteria(persistentClass);
-        return criteria.list();
+    public boolean deleteAll() {
+        beginTransaction();
+
+        try {
+            String hql = String.format("delete from %s", persistentClass.getSimpleName().toLowerCase());
+            Query query = HibernateUtil.getSession().createQuery(hql);
+            int row = query.executeUpdate();
+            return true;
+        } catch (HibernateException e) {
+            return false;
+        } finally {
+            commitTransaction();
+        }
     }
 
 }
