@@ -6,7 +6,10 @@ package gerador;
 
 import com.google.gson.Gson;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,7 +26,7 @@ public class GeradorAvaliacao {
     public void gerarJsonAvaliacao(int quantRegistros) {
         String textoJsonAval;
         Gerador gerador;
-
+        FileWriter fileWriter = null;
         int cont;
         Avaliacao aval;
 
@@ -37,9 +40,10 @@ public class GeradorAvaliacao {
             textoJsonAval = gson.toJson(aval);//tranforma o objeto em string Json
             try {
 
-                FileWriter fileWriter = new FileWriter("json_files/avaliacoes/avaliacao_" + cont + ".json");
+                fileWriter = new FileWriter("json_files/avaliacoes/avaliacao_" + cont + ".json");
                 fileWriter.write(textoJsonAval);
                 fileWriter.close();
+
 
             } catch (Exception e) {
 
