@@ -4,20 +4,20 @@
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!-- <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/phelipea_sad?zeroDateTimeBehavior=convertToNull</property> -->
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/phelipea_sad?zeroDateTimeBehavior=convertToNull</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"></property>
-        <property name="hibernate.show_sql">TRUE</property>
+        <property name="hibernate.connection.password"/>
+        <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
-        
-        <!--  Mapeamento -->
-        <mapping class="br.ufg.es.sad.entity.AtividadeResolucaoId"/>
+    
+        <!--  Mapeamento -->   
+        <mapping class="br.ufg.es.sad.entity.Atividade"/>
         <mapping class="br.ufg.es.sad.entity.AtividadeResolucao"/>
+        <mapping class="br.ufg.es.sad.entity.AtividadeResolucaoId"/>
         <mapping class="br.ufg.es.sad.entity.Resolucao"/>
         <mapping class="br.ufg.es.sad.entity.Grupo"/>
-        <mapping class="br.ufg.es.sad.entity.Atividade"/>
-        <mapping class="br.ufg.es.sad.entity.Valor"/>
     </session-factory>
 </hibernate-configuration>

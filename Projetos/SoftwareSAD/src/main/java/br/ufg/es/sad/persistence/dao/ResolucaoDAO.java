@@ -4,8 +4,9 @@ import br.ufg.es.sad.entity.Resolucao;
 
 /**
  * É nessa interface que colocamos os métodos específicos para o nosso DAO.
+ *
  * @author Phelipe
  */
-public interface ResolucaoDAO extends GenericDAO<Resolucao, Integer>{
-    
+public interface ResolucaoDAO extends GenericDAO<Resolucao, Integer> {
+
 }

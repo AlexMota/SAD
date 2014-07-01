@@ -1,5 +1,6 @@
 package br.ufg.es.sad.persistence;
 
+import br.ufg.es.sad.persistence.util.HibernateUtil;
 import br.ufg.es.sad.persistence.dao.GenericDAO;
 import java.io.Serializable;
 import java.util.List;
@@ -42,7 +43,7 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
     }
 
     @Override
-    public T get(Type id) {
+    public T get(Type id) throws HibernateException {
         beginTransaction();
         T entity = (T) HibernateUtil.getSession().get(persistentClass, id);
         commitTransaction();
@@ -57,42 +58,43 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
     }
 
     @Override
-    public void save(T object) {
+    public void save(T object) throws HibernateException {
         beginTransaction();
         HibernateUtil.getSession().saveOrUpdate(object);
+        HibernateUtil.getSession().flush();
         commitTransaction();
     }
 
-    public void save(List<T> objects) {
+    public void save(List<T> objects) throws HibernateException {
         for (T object : objects) {
             save(object);
         }
     }
 
     @Override
-    public boolean delete(T entity) {
+    public boolean delete(T entity) throws HibernateException {
         beginTransaction();
         try {
             HibernateUtil.getSession().delete(entity);
             return true;
         } catch (HibernateException e) {
-            return false;
+            throw new HibernateException("Erro ao deletar: " + entity.toString());
         } finally {
             commitTransaction();
         }
     }
 
     @Override
-    public boolean deleteById(Type id) {
+    public boolean deleteById(Type id) throws HibernateException {
         try {
             T object = (T) HibernateUtil.getSession().get(persistentClass, id);
             return delete(object);
         } catch (HibernateException e) {
-            return false;
+            throw new HibernateException("Erro ao deletar: " + persistentClass.getSimpleName() + " id: " + id);
         }
     }
 
-    public boolean deleteAll() {
+    public boolean deleteAll() throws HibernateException {
         beginTransaction();
 
         try {
@@ -101,7 +103,7 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
             int row = query.executeUpdate();
             return true;
         } catch (HibernateException e) {
-            return false;
+            throw new HibernateException("Erro ao deletar todos registros " + persistentClass.getSimpleName());
         } finally {
             commitTransaction();
         }

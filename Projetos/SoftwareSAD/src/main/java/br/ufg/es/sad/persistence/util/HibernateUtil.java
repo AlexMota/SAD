@@ -1,5 +1,6 @@
-package br.ufg.es.sad.persistence;
+package br.ufg.es.sad.persistence.util;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.classic.Session;
@@ -27,7 +28,7 @@ public class HibernateUtil {
         return session;
     }
 
-    public static void beginTransaction() {
+    public static void beginTransaction() throws HibernateException {
         getSession().beginTransaction();
     }
 

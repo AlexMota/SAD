@@ -29,7 +29,7 @@ public class Resolucao implements java.io.Serializable {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resolucao", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = AtividadeResolucao.RESOLUCAO, cascade = CascadeType.ALL)
     private Set<AtividadeResolucao> atividadesResolucao = new HashSet<AtividadeResolucao>(0);
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -89,7 +89,7 @@ public class Resolucao implements java.io.Serializable {
      * @param valor
      */
     public void addAtividade(Atividade atividade, double valor) {
-        this.atividadesResolucao.add(new AtividadeResolucao(this, atividade, valor));
+        getAtividadeResolucaos().add(new AtividadeResolucao(atividade, this, valor));
     }
 
     public Set<Grupo> getGrupos() {
@@ -110,4 +110,29 @@ public class Resolucao implements java.io.Serializable {
     public String toString() {
         return "ID: " + id + " NOME: " + nome;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Resolucao other = (Resolucao) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        if ((this.nome == null) ? (other.nome != null) : !this.nome.equals(other.nome)) {
+            return false;
+        }
+        if (this.atividadesResolucao != other.atividadesResolucao && (this.atividadesResolucao == null || !this.atividadesResolucao.equals(other.atividadesResolucao))) {
+            return false;
+        }
+        if (this.grupos != other.grupos && (this.grupos == null || !this.grupos.equals(other.grupos))) {
+            return false;
+        }
+        return true;
+    }
+
 }

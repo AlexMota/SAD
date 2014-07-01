@@ -110,14 +110,14 @@ public class GrupoDAOTest extends TestCase {
 
     private List<Grupo> getListGrupos() {
         List<Grupo> grupos = new ArrayList<Grupo>();
-        
-        Grupo grupo_a = new Grupo("ATIVIDADES DE ENSINO (Anexo II)");        
+
+        Grupo grupo_a = new Grupo("ATIVIDADES DE ENSINO (Anexo II)");
         Grupo grupo_a1 = new Grupo("Ensino de graduação", grupo_a);
         Grupo grupo_a2 = new Grupo("Ensino de pós-graduação", grupo_a);
         grupos.add(grupo_a1);
         grupos.add(grupo_a2);
-        
-        Grupo grupo_b = new Grupo("PRODUÇÃO INTELECTUAL (Anexo II)");        
+
+        Grupo grupo_b = new Grupo("PRODUÇÃO INTELECTUAL (Anexo II)");
         Grupo grupo_b1 = new Grupo("Ensino de graduação", grupo_b);
         Grupo grupo_b2 = new Grupo("Produção Científica", grupo_b);
         Grupo grupo_b3 = new Grupo("Produção Técnica ou Tecnológica", grupo_b);
@@ -142,7 +142,7 @@ public class GrupoDAOTest extends TestCase {
 
     private Grupo getGrupoDefault() {
         Resolucao resolucao = new Resolucao("Resolucao 2014");
-        Grupo grupo = new Grupo("V - 2 Atividades Acadêmicas – Bancas e Cursos ", resolucao);        
+        Grupo grupo = new Grupo("V - 2 Atividades Acadêmicas – Bancas e Cursos ", resolucao);
         return grupo;
     }
 }

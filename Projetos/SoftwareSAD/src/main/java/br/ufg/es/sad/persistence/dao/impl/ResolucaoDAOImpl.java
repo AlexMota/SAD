@@ -9,7 +9,7 @@ import br.ufg.es.sad.persistence.dao.ResolucaoDAO;
  *
  * @author Phelipe
  */
-public class ResolucaoDAOImpl extends HibernateDAO<Resolucao, Integer> implements ResolucaoDAO { 
+public class ResolucaoDAOImpl extends HibernateDAO<Resolucao, Integer> implements ResolucaoDAO {
 
     public ResolucaoDAOImpl() {
         super(Resolucao.class);

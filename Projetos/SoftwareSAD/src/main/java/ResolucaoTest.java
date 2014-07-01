@@ -1,7 +1,11 @@
 
+import br.ufg.es.sad.entity.Atividade;
+import br.ufg.es.sad.entity.AtividadeResolucao;
 import br.ufg.es.sad.entity.Grupo;
 import br.ufg.es.sad.entity.Resolucao;
 import br.ufg.es.sad.persistence.DAOFactory;
+import br.ufg.es.sad.persistence.util.HibernateUtil;
+import br.ufg.es.sad.persistence.dao.AtividadeDAO;
 import br.ufg.es.sad.persistence.dao.ResolucaoDAO;
 import java.util.Iterator;
 import java.util.List;
@@ -9,11 +13,12 @@ import java.util.List;
 public class ResolucaoTest {
 
     public static void main(String[] args) {
-        test_ResolucaoTest_Criar();
-        test_ResolucaoTest_Listar();
-        test_ResolucaoTest_Excluir();
-        test_ResolucaoTest_Listar();
-        test_ResolucaoTest_AdicionarGrupo();
+        //test_ResolucaoTest_Criar();
+        //test_ResolucaoTest_Listar();
+        //test_ResolucaoTest_Excluir();
+        //test_ResolucaoTest_Listar();
+        //test_ResolucaoTest_AdicionarGrupo();
+        test_ResolucaoTest_AdicionarAtivade();
     }
 
     public static void test_ResolucaoTest_Criar() {
@@ -77,18 +82,21 @@ public class ResolucaoTest {
      * TODO: Finalizar o teste
      */
     public static void test_ResolucaoTest_AdicionarAtivade() {
-        System.err.println(" ************ Adiciona Atividade na Resolução ************ ");
-        DAOFactory factory = DAOFactory.getFactory();
-        ResolucaoDAO resolucaoDAO = factory.getResolucaoDAO();
+        HibernateUtil.getSession().beginTransaction();               
+        
+        Atividade atividade = new Atividade("Atividade na resolução");
+        HibernateUtil.getSession().save(atividade);
+        
+        Resolucao resolucao = new Resolucao("Resolução com atividade");
+        resolucao.addAtividade(atividade, 2.5);
+        
+        HibernateUtil.getSession().save(resolucao);
+        
+        HibernateUtil.getSession().getTransaction().commit();
 
-        Resolucao resolucao = new Resolucao("Ano com atividade");
-       //resolucao.addAtividadeResolucao(new AtividadeResolucao(resolucao, new Valor(2), new Atividade("")));
-
-        resolucaoDAO.save(resolucao);
-
-        if (resolucao.getGrupos().size() == 4) {
-            for (Grupo grupo : resolucao.getGrupos()) {
-                System.out.println(grupo.toString());
+        if (resolucao.getAtividadeResolucaos().size() == 1) {
+            for (AtividadeResolucao atr : resolucao.getAtividadeResolucaos()) {
+                System.out.println(atr.toString());
             }
         } else {
             System.err.println("Erro: test_ResolucaoTest_AdicionarGrupo");

@@ -152,6 +152,18 @@ public class Grupo implements java.io.Serializable {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 47 * hash + (this.grupo != null ? this.grupo.hashCode() : 0);
+        hash = 47 * hash + (this.nome != null ? this.nome.hashCode() : 0);
+        hash = 47 * hash + (this.resolucoes != null ? this.resolucoes.hashCode() : 0);
+        hash = 47 * hash + (this.atividades != null ? this.atividades.hashCode() : 0);
+        hash = 47 * hash + (this.grupos != null ? this.grupos.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

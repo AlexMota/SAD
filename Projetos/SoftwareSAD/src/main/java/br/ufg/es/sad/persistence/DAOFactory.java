@@ -12,10 +12,11 @@ import br.ufg.es.sad.persistence.dao.ResolucaoDAO;
 public abstract class DAOFactory {
 
     private static final Class FACTORY_CLASS = HibernateDAOFactory.class;
-    
+
     /**
      * Retornar uma instância da classe
-     * @return 
+     *
+     * @return
      */
     public static DAOFactory getFactory() {
 
@@ -31,7 +32,7 @@ public abstract class DAOFactory {
     }
 
     public abstract GrupoDAO getGrupoDAO();
-    
+
     public abstract AtividadeDAO getAtividadeDAO();
 
     public abstract ResolucaoDAO getResolucaoDAO();

@@ -2,6 +2,7 @@ package br.ufg.es.sad.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,7 +36,7 @@ public class Atividade implements java.io.Serializable {
         @JoinColumn(name = "grupo_id", nullable = false, updatable = false)})
     private Set<Grupo> grupos = new HashSet<Grupo>(0);
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "atividade", cascade = javax.persistence.CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = AtividadeResolucao.ATIVIDADE, cascade = CascadeType.ALL)
     //@Cascade({CascadeType.ALL})
     private Set<AtividadeResolucao> atividadeResolucaos = new HashSet<AtividadeResolucao>(0);
 
@@ -48,13 +49,13 @@ public class Atividade implements java.io.Serializable {
 
     public Atividade(String nome, Resolucao resolucao, double valor) {
         this.nome = nome;
-        this.addAtividadeResolucao(resolucao, valor);
+        this.addResolucao(resolucao, valor);
     }
 
     public Atividade(String nome, Resolucao resolucao, Grupo grupo, double valor) {
         this.nome = nome;
         this.grupos.add(grupo);
-        this.addAtividadeResolucao(resolucao, valor);
+        this.addResolucao(resolucao, valor);
     }
 
     public Atividade(String nome, Set<Grupo> grupos, Set<AtividadeResolucao> atividadeResolucaos) {
@@ -102,14 +103,22 @@ public class Atividade implements java.io.Serializable {
     }
 
     public void addAtividadeResolucao(AtividadeResolucao atividadeResolucao) {
-        if (atividadeResolucao != null) {
-            this.atividadeResolucaos.add(atividadeResolucao);
-        }
+        this.atividadeResolucaos.add(atividadeResolucao);
     }
 
-    public void addAtividadeResolucao(Resolucao resolucao, double valor) {
-        AtividadeResolucao atividadeResolucao = new AtividadeResolucao(resolucao, this, valor);
-        this.atividadeResolucaos.add(atividadeResolucao);
+    /**
+     * Adicionar a atividade atual na resoluçao x com tendo como valor y
+     *
+     * @param resolucao resolução que atividade vai pertencer
+     * @param valor valor da atividade na resoluçao
+     */
+    public void addResolucao(Resolucao resolucao, double valor) {
+        getAtividadeResolucaos().add(new AtividadeResolucao(this, resolucao, valor));
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + " NOME: " + nome;
     }
 
     @Override
@@ -134,6 +143,16 @@ public class Atividade implements java.io.Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 41 * hash + (this.nome != null ? this.nome.hashCode() : 0);
+        hash = 41 * hash + (this.grupos != null ? this.grupos.hashCode() : 0);
+        hash = 41 * hash + (this.atividadeResolucaos != null ? this.atividadeResolucaos.hashCode() : 0);
+        return hash;
     }
 
 }

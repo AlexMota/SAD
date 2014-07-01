@@ -7,6 +7,7 @@ import br.ufg.es.sad.persistence.DAOFactory;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
+import org.hibernate.HibernateException;
 
 /**
  * http://www.adufg.org.br/dados/editor3/file/Resolucao_CONSUNI_2013_0032.pdf
@@ -40,7 +41,7 @@ public class AtividadeDAOTest extends TestCase {
         assertNotNull(dao);
     }
 
-    public void testSave() {
+    public void testSave() throws HibernateException {
         Atividade atividade = new Atividade("Docente regularmente matriculado em curso de doutorado com relatórios de pós-graduação aprovados (pontuação por mês de curso)");
 
         dao.save(atividade);
@@ -53,7 +54,7 @@ public class AtividadeDAOTest extends TestCase {
         assertEquals(persistido, atividade);
     }
 
-    public void testSaveList() {
+    public void testSaveList() throws HibernateException {
         List<Atividade> atividades = getListAtividade();
 
         dao.save(atividades);
@@ -63,7 +64,7 @@ public class AtividadeDAOTest extends TestCase {
         }
     }
 
-    public void testGetById() {
+    public void testGetById() throws HibernateException {
         Atividade atividade = new Atividade("Iniciação cientifica");
         dao.save(atividade);
         assertTrue(atividade.getId() > 0);
@@ -74,7 +75,7 @@ public class AtividadeDAOTest extends TestCase {
         assertEquals(persistido, atividade);
     }
 
-    public void testGetAll() {
+    public void testGetAll() throws HibernateException {
         dao.save(getListAtividade());
 
         List<Atividade> atividades = dao.getAll();
@@ -82,7 +83,7 @@ public class AtividadeDAOTest extends TestCase {
         assertFalse(atividades.isEmpty());
     }
 
-    public void testDelete() {
+    public void testDelete() throws HibernateException {
         Atividade atividade = new Atividade("Publicadas em revistas científicas");
         dao.save(atividade);
 
@@ -91,7 +92,7 @@ public class AtividadeDAOTest extends TestCase {
         assertTrue(deleted);
     }
 
-    public void testDeleteById() {
+    public void testDeleteById() throws HibernateException {
         Atividade atividade = new Atividade("Publicadas em revistas científicas");
         dao.save(atividade);
 
@@ -99,15 +100,15 @@ public class AtividadeDAOTest extends TestCase {
 
         assertTrue(deleted);
     }
-    
-    public void testDeleteAll() {
+
+    public void testDeleteAll() throws HibernateException {
         dao.save(getListAtividade());
 
         boolean deleted = dao.deleteAll();
-        
+
         assertTrue(deleted);
     }
-    
+
     private List<Atividade> getListAtividade() {
         List<Atividade> atividades = new ArrayList<Atividade>();
         atividades.add(new Atividade("Membro de banca de concurso para docente efetivo"));
@@ -116,26 +117,5 @@ public class AtividadeDAOTest extends TestCase {
         atividades.add(new Atividade("Membro de corpo de júri"));
 
         return atividades;
-    }
-    
-    public void testAtividadeDefault(){
-        Atividade atividade = getAtividadeDefault();
-        
-        dao.save(atividade);
-        
-        Atividade persisted = dao.get(atividade.getId());
-        assertNotNull(persisted);
-        assertEquals(persisted, atividade);
-    }
-    
-    private Atividade getAtividadeDefault(){
-        Resolucao resolucao = new Resolucao("Resolucao 2014");        
-        Grupo grupo = new Grupo("V - 2 Atividades Acadêmicas – Bancas e Cursos ");        
-        
-        Atividade atividade = new Atividade("Na instituição");
-        atividade.addGrupo(grupo);
-        // TODO: Problema no id da atividade para inserir na resolução
-        atividade.addAtividadeResolucao(resolucao, 2);      
-        return atividade;
     }
 }

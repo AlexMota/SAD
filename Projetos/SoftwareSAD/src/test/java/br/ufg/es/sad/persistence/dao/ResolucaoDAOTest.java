@@ -130,16 +130,15 @@ public class ResolucaoDAOTest extends TestCase {
         final Resolucao resolucao = new Resolucao("Resolucao 2014");
         return resolucao;
     }
-    
+
     public void testAddAtividadeResolucao() {
         Resolucao resolucao = new Resolucao("Resolucao com atividade 01");
         dao.save(resolucao);
-        
-        
+
         resolucao.addAtividade(new Atividade("Atividade da resolução"), 2.5);
-        
+
         dao.save(resolucao);
-        
+
         Resolucao persisted = dao.get(resolucao.getId());
         assertNotNull(persisted);
         assertEquals(persisted, resolucao);
