@@ -25,7 +25,6 @@ public class Gerador {
     private ArrayList<String> nomesProfessores;
     private int quantAtividades;
     private int pesoMaximo;
-    private int quantMaxAtiv;
     Gson gson;
 
     public Gerador() {
@@ -52,8 +51,7 @@ public class Gerador {
     }
 
     private void iniciarValores() {
-        quantAtividades = 10;
-        quantMaxAtiv = 5;
+        quantAtividades = 100;
         pesoMaximo = 20;
     }
 
@@ -77,43 +75,20 @@ public class Gerador {
 
     }
 
-    private int geradorId() {
-
-        Random random = new Random();
-        int idAtividade = 1 + random.nextInt(quantAtividades);
-
-        return idAtividade;
-    }
-
     private int geradorPeso() {
 
         Random random = new Random();
-        int peso = 1 + random.nextInt(pesoMaximo);
+        int peso = random.nextInt(pesoMaximo+1);
 
         return peso;
     }
 
-    private int geradorQuantAtividades() {
-        Random random = new Random();
-        int quant = 1 + random.nextInt(quantMaxAtiv);
-
-        return quant;
-    }
-
     public ArrayList<Atividade> geradorAtividades(){
-    
-    int nAtividades = geradorQuantAtividades();
-    int idAtual;
-    ArrayList<Atividade> atividades = new ArrayList<>();
-    ArrayList<Integer> ids = new ArrayList<>();
-    
-        while (nAtividades > atividades.size()) {            
-            idAtual = geradorId();
-            
-            if(!ids.contains(idAtual)){
-            atividades.add(new Atividade(idAtual, geradorPeso()));
-            ids.add(idAtual);
-            }
+        
+        ArrayList<Atividade> atividades = new ArrayList<>();
+        
+        for (int i = 0; i < quantAtividades; i++) {
+            atividades.add(new Atividade(i+1, geradorPeso()));
         }
         return atividades;
     }

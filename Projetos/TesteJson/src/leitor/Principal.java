@@ -15,9 +15,9 @@ public class Principal {
     public static void main(String[] args) {
         LeitorAvaliacao leitorAvaliacao = new LeitorAvaliacao();
         
-        leitorAvaliacao.lerJsonAvaliacao();
+        leitorAvaliacao.lerJsonAvaliacao(10000);
         leitorAvaliacao.imprimirNumeroRegistros();
-        leitorAvaliacao.imprimirAvaliacoes();
+        //leitorAvaliacao.imprimirAvaliacoes();
     }
     
 }
