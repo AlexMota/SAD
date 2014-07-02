@@ -9,7 +9,7 @@
         <property name="hibernate.connection.password"/>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">falses</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
     
         <!--  Mapeamento -->   

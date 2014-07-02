@@ -38,7 +38,7 @@ public class Resolucao implements java.io.Serializable {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = AtividadeResolucao.RESOLUCAO, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = AtividadeResolucao.RESOLUCAO, cascade = CascadeType.ALL)
     private Set<AtividadeResolucao> atividadesResolucao = new HashSet<AtividadeResolucao>(0);
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

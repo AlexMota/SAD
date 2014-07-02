@@ -22,6 +22,14 @@ public class Main {
         for (Grupo grupo : grupos) {
             System.err.println(grupo.toString());
         }
+        
+        //Selecionar todas as atividades da resolução 1
+        Resolucao resolucao = daof.getResolucaoDAO().get(1);
+        
+        List<Atividade> atividades = daof.getResolucaoDAO().getAllAtividades(resolucao);
+        for (Atividade atividade : atividades) {
+            System.err.println(atividade.toString());
+        }
     }
 
     /**
