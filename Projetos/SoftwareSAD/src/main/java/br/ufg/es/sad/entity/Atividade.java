@@ -36,7 +36,7 @@ public class Atividade implements java.io.Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome", nullable = false, length = 2000)
     private String nome;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
