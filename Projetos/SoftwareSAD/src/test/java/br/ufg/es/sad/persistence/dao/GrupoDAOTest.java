@@ -9,10 +9,12 @@ import junit.framework.TestCase;
 import org.hibernate.HibernateException;
 
 /**
+ * Entidade de teste para a classe GrupoDAO
  *
  * @author Phelipe Alves de Souza
- * @since 29/06/2014
- * @version 0.1
+ * @author Paulo Henrique
+ * @since 02/07/2014
+ * @version 0.2
  */
 public class GrupoDAOTest extends TestCase {
 
@@ -104,14 +106,6 @@ public class GrupoDAOTest extends TestCase {
         dao.save(grupo);
 
         boolean deleted = dao.deleteById(grupo.getId());
-
-        assertTrue(deleted);
-    }
-
-    public void testDeleteAll() throws HibernateException {
-        dao.save(getListGrupos());
-
-        boolean deleted = dao.deleteAll();
 
         assertTrue(deleted);
     }

@@ -4,7 +4,13 @@ import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
 /**
- * AtividadeResolucaoId
+ * Entidade que é definida como identificador do realicionamento m x n entre as
+ * entidades: <code>Atividade</code> e <code>Resolucao</code>.<br>
+ * Essa entidade irá compor a entidade <code>AtividadeResolucao<code>.
+ *
+ * @author Phelipe Alves de Souza
+ * @since 02/07/2014
+ * @version 0.1
  */
 @Embeddable
 public class AtividadeResolucaoId implements java.io.Serializable {

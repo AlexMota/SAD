@@ -1,4 +1,4 @@
-package br.ufg.es.sad.persistence;
+package br.ufg.es.sad.persistence.dao.impl;
 
 import br.ufg.es.sad.persistence.util.HibernateUtil;
 import br.ufg.es.sad.persistence.dao.GenericDAO;
@@ -7,22 +7,22 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
 /**
+ * Implementaçao de <code>GenericDAO</code> utilizando Hibernate
  *
  * @author Phelipe Alves de Souza
  * @since 29/06/2014
  * @version 0.1
- * @param <T>
- * @param <Type>
+ * @param <T> o tipo do objeto de domínio
+ * @param <Type> o tipo do identificador do objeto de dominio
  */
-public abstract class HibernateDAO<T, Type extends Serializable> implements GenericDAO<T, Type> {
+public abstract class GenericDAOImpl<T, Type extends Serializable> implements GenericDAO<T, Type> {
 
     private final Class<T> persistentClass;
 
-    public HibernateDAO(Class persistentClass) {
+    public GenericDAOImpl(Class persistentClass) {
         super();
         this.persistentClass = persistentClass;
     }
@@ -42,7 +42,7 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
     public T load(Type id) throws EntityNotFoundException {
         T entity = get(id);
         if (entity == null) {
-            throw new EntityNotFoundException("Entidade");
+            throw new EntityNotFoundException("Entidade não encontrada");
         }
         return entity;
     }
@@ -57,7 +57,6 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
 
     @Override
     public List<T> getAll() {
-        //HibernateUtil.beginTransaction();
         Criteria criteria = HibernateUtil.getSession().createCriteria(persistentClass);
         return criteria.list();
     }
@@ -96,21 +95,6 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
             return delete(object);
         } catch (HibernateException e) {
             throw new HibernateException("Erro ao deletar: " + persistentClass.getSimpleName() + " id: " + id);
-        }
-    }
-
-    public boolean deleteAll() throws HibernateException {
-        beginTransaction();
-
-        try {
-            String hql = String.format("delete from %s", persistentClass.getSimpleName().toLowerCase());
-            Query query = HibernateUtil.getSession().createQuery(hql);
-            int row = query.executeUpdate();
-            return true;
-        } catch (HibernateException e) {
-            throw new HibernateException("Erro ao deletar todos registros " + persistentClass.getSimpleName());
-        } finally {
-            commitTransaction();
         }
     }
 

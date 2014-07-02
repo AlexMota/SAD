@@ -5,16 +5,19 @@ import br.ufg.es.sad.persistence.dao.GrupoDAO;
 import br.ufg.es.sad.persistence.dao.ResolucaoDAO;
 
 /**
- * Responsável por criar as instâncias das classes Hibernate
+ * Responsável por encapsular as instanciações dos tipos concretos dos DAOs.
  *
- * @author Phelipe
+ * @author Phelipe Alves de Souza
+ * @since 29/06/2014
+ * @version 0.1
  */
 public abstract class DAOFactory {
 
     private static final Class FACTORY_CLASS = HibernateDAOFactory.class;
 
     /**
-     * Retornar uma instância da classe
+     * Retornar uma instância de uma subclasse que implementa os elementos
+     * abstratos em tipos concretos.
      *
      * @return
      */
@@ -30,7 +33,7 @@ public abstract class DAOFactory {
             throw new RuntimeException();
         }
     }
-
+    
     public abstract GrupoDAO getGrupoDAO();
 
     public abstract AtividadeDAO getAtividadeDAO();

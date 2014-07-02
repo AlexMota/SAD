@@ -9,10 +9,12 @@ import junit.framework.TestCase;
 import org.hibernate.HibernateException;
 
 /**
+ * Entidade de teste para a classe AtividadeDAO
  *
  * @author Phelipe Alves de Souza
- * @since 29/06/2014
- * @version 0.1
+ * @author Paulo Henrique
+ * @since 02/07/2014
+ * @version 0.2
  */
 public class AtividadeDAOTest extends TestCase {
 
@@ -44,7 +46,7 @@ public class AtividadeDAOTest extends TestCase {
     public void testDao() {
         assertNotNull(dao);
     }
-    
+
     public void testResolucao() {
         assertNotNull(resolucao);
     }
@@ -96,7 +98,7 @@ public class AtividadeDAOTest extends TestCase {
         dao.save(atividade);
 
         boolean deleted = dao.delete(atividade);
-        
+
         assertTrue(deleted);
     }
 
@@ -105,14 +107,6 @@ public class AtividadeDAOTest extends TestCase {
         dao.save(atividade);
 
         boolean deleted = dao.deleteById(atividade.getId());
-
-        assertTrue(deleted);
-    }
-
-    public void testDeleteAll() throws HibernateException {
-        dao.save(getListAtividade());
-
-        boolean deleted = dao.deleteAll();
 
         assertTrue(deleted);
     }

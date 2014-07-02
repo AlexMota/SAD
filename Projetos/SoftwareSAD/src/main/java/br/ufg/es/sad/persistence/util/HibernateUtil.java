@@ -9,7 +9,9 @@ import org.hibernate.classic.Session;
  * Classe utilitária para obtermos a sessão, iniciar a transação, commit, fechar
  * sessão e etc.
  *
- * @author Phelipe
+ * @author Phelipe Alves de Souza
+ * @since 02/07/2014
+ * @version 0.2
  */
 public class HibernateUtil {
 

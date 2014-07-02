@@ -8,9 +8,12 @@ import br.ufg.es.sad.persistence.dao.impl.GrupoDAOImpl;
 import br.ufg.es.sad.persistence.dao.impl.ResolucaoDAOImpl;
 
 /**
- * Implementa os métodos do DAOFactory
+ * Implementa os métodos do DAOFactory, criando os objetos que implementa os
+ * respectivos DAOs
  *
- * @author Phelipe
+ * @author Phelipe Alves de Souza
+ * @since 29/06/2014
+ * @version 0.1
  */
 class HibernateDAOFactory extends DAOFactory {
 

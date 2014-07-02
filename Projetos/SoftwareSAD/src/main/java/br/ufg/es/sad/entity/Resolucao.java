@@ -15,6 +15,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Entidade que define uma resolução.
+ * Essa resolução pode conter várias <code>Atividade</code>(s).
+ * Essa resolução pode conter vários <code>Grupo</code>(s).
+ * 
+ * @author Phelipe Alves de Souza
+ * @since 02/07/2014
+ * @version 0.1
+ */
 @Entity
 @Table(name = Resolucao.NAME)
 public class Resolucao implements java.io.Serializable {
@@ -29,7 +38,7 @@ public class Resolucao implements java.io.Serializable {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = AtividadeResolucao.RESOLUCAO, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = AtividadeResolucao.RESOLUCAO, cascade = CascadeType.ALL)
     private Set<AtividadeResolucao> atividadesResolucao = new HashSet<AtividadeResolucao>(0);
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

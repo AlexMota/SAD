@@ -14,17 +14,27 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        /**
-         * Testando todos os cruds.
-         * <br>
-         * Criando uma resolução
-         * <br>
-         * Adicionando os grupos e atividades a essa resoluçao
-         * <br>
-         * Salvandos todas as atividades</p>
-         */
+        //TesteCadastroCompleta();
         
-        
+        //Selecionar os grupos Raiz
+        DAOFactory daof = DAOFactory.getFactory();
+        List<Grupo> grupos = daof.getGrupoDAO().getGruposRaiz();
+        for (Grupo grupo : grupos) {
+            System.err.println(grupo.toString());
+        }
+    }
+
+    /**
+     * Testando todos os cruds.
+     * <br>
+     * Criando uma resolução
+     * <br>
+     * Adicionando os grupos e atividades a essa resoluçao
+     * <br>
+     * Salvandos todas as atividades</p>
+     */
+    public static void TesteCadastroCompleta() {
+
         DAOFactory daof = DAOFactory.getFactory();
 
         // Criando a resolução
@@ -54,9 +64,12 @@ public class Main {
         // Salvando as atividades
         daof.getAtividadeDAO().save(atividade1);
         daof.getAtividadeDAO().save(atividade2);
-        
-        // Consultas    
-        
+
+        // Consultas        
+        Resolucao res = daof.getResolucaoDAO().load(16);
+        for (AtividadeResolucao atividadeResolucao : res.getAtividadeResolucaos()) {
+            System.err.println(atividadeResolucao.getAtividade().toString());
+        }
     }
 
 }

@@ -16,6 +16,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Entidade que define o grupo de uma determinada atividade.<br>
+ * Esse grupo deve pertencer a uma ou mais <code>Resolucao</code>.<br>
+ * Esse grupo pode pertencer a outro(s) <code>Grupo</code>(s).<br>
+ * Esse grupo pode conter varias <code>Grupo</code>(s).<br>
+ * Esse grupo pode conter varias <code>Atividade</code>(s).<br>
+ *
+ * @author Phelipe Alves de Souza
+ * @since 02/07/2014
+ * @version 0.1
+ */
 @Entity
 @Table(name = Grupo.NAME)
 public class Grupo implements java.io.Serializable {
@@ -157,9 +168,6 @@ public class Grupo implements java.io.Serializable {
         hash = 47 * hash + (this.id != null ? this.id.hashCode() : 0);
         hash = 47 * hash + (this.grupo != null ? this.grupo.hashCode() : 0);
         hash = 47 * hash + (this.nome != null ? this.nome.hashCode() : 0);
-        hash = 47 * hash + (this.resolucoes != null ? this.resolucoes.hashCode() : 0);
-        hash = 47 * hash + (this.atividades != null ? this.atividades.hashCode() : 0);
-        hash = 47 * hash + (this.grupos != null ? this.grupos.hashCode() : 0);
         return hash;
     }
 

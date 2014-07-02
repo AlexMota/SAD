@@ -1,13 +1,15 @@
 package br.ufg.es.sad.persistence.dao;
 
-import br.ufg.es.sad.entity.Atividade;
+import br.ufg.es.sad.entity.AtividadeResolucao;
 import br.ufg.es.sad.entity.Resolucao;
-import java.util.List;
+import java.util.Set;
 
 /**
- * É nessa interface que colocamos os métodos específicos para o nosso DAO.
+ * Interface que contém os métodos específicos para Resolucao.
  *
- * @author Phelipe
+ * @author Phelipe Alves de Souza
+ * @since 02/07/2014
+ * @version 0.2
  */
 public interface ResolucaoDAO extends GenericDAO<Resolucao, Integer> {
 
@@ -17,5 +19,7 @@ public interface ResolucaoDAO extends GenericDAO<Resolucao, Integer> {
      * @param resolucao
      * @return lista com todas as atividades
      */
-    List<Atividade> getAllAtividades(Resolucao resolucao);
+    Set<AtividadeResolucao> getAllAtividades(Resolucao resolucao);
+
+    Resolucao loadComplete(Integer id);
 }

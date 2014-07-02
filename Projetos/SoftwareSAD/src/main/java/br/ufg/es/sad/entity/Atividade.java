@@ -15,6 +15,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Entidade que define uma atividade de uma resolução.<br>
+ * Essa atividade deve pertencer ao menos uma ou varias <code>Resolucao</code>(s).<br>
+ * Para cada <code>Resolucao</code> essa atividade terá um valor.<br>
+ * Essa atividade pode perterncer a varios <code>Grupo</code>(s).
+ *
+ * @author Phelipe Alves de Souza
+ * @since 02/07/2014
+ * @version 0.1
+ */
 @Entity
 @Table(name = Atividade.NAME)
 public class Atividade implements java.io.Serializable {

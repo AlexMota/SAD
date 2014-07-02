@@ -7,10 +7,12 @@ import java.util.List;
 import junit.framework.TestCase;
 
 /**
+ * Entidade de teste para a classe ResolucaoDAO
  *
  * @author Phelipe Alves de Souza
- * @since 29/06/2014
- * @version 0.1
+ * @author Paulo Henrique
+ * @since 02/07/2014
+ * @version 0.2
  */
 public class ResolucaoDAOTest extends TestCase {
 
@@ -94,14 +96,6 @@ public class ResolucaoDAOTest extends TestCase {
         dao.save(resolucao);
 
         boolean deleted = dao.deleteById(resolucao.getId());
-        assertTrue(deleted);
-    }
-
-    public void testDeleteAll() {
-        dao.save(getListResolucoes());
-
-        boolean deleted = dao.deleteAll();
-
         assertTrue(deleted);
     }
 

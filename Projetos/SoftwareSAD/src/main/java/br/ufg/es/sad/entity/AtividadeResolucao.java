@@ -10,7 +10,12 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- * AtividadeResolucao
+ * Entidade que define o relacionamento das entidades <code>Resolucao</code> e
+ * <code>Atividade</code>
+ *
+ * @author Phelipe Alves de Souza
+ * @since 02/07/2014
+ * @version 0.1
  */
 @Entity
 @Table(name = AtividadeResolucao.NAME)

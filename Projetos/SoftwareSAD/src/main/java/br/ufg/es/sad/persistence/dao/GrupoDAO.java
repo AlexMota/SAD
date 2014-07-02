@@ -4,16 +4,18 @@ import br.ufg.es.sad.entity.Grupo;
 import java.util.List;
 
 /**
- * É nessa interface que colocamos os métodos específicos para o nosso DAO.
+ * Interface que contém os métodos específicos para Grupo.
  *
- * @author Phelipe
+ * @author Phelipe Alves de Souza
+ * @since 02/07/2014
+ * @version 0.2
  */
 public interface GrupoDAO extends GenericDAO<Grupo, Integer> {
 
     /**
      * Selecionar grupos raiz, que não fazem parte de um subgrupo
      *
-     * @return
+     * @return lista com todos os grupos
      */
     List<Grupo> getGruposRaiz();
 }

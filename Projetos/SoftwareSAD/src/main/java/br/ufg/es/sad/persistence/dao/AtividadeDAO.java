@@ -3,9 +3,11 @@ package br.ufg.es.sad.persistence.dao;
 import br.ufg.es.sad.entity.Atividade;
 
 /**
- * É nessa interface que colocamos os métodos específicos para o nosso DAO.
+ * Interface que contém os métodos específicos para Atividade.
  *
- * @author Phelipe
+ * @author Phelipe Alves de Souza
+ * @since 02/07/2014
+ * @version 0.2
  */
 public interface AtividadeDAO extends GenericDAO<Atividade, Integer> {
 
