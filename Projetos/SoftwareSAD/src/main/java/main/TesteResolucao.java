@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class TesteResolucao {
 
-    public static void main(String[] args) {
+    public static void InserirResolucaoUfgCompleta() {
         // Lista com as atividades
         List<Atividade> atividades = new ArrayList<Atividade>();
 
@@ -294,36 +294,14 @@ public class TesteResolucao {
         atividades.add(new Atividade("Curso de aperfeiçoamento realizado com carga horária inferior a 40 horas", resolucao, subGrupo5_3, 1));
         atividades.add(new Atividade("Participação em Congressos, Seminários, Encontros, Jornadas etc. (total máximo a ser considerado neste item são 3 pontos)", resolucao, subGrupo5_3, 1));
 
-        //Salvar a resolução
+        // Salvar a resolução
+        
         DAOFactory daof = DAOFactory.getFactory();
-        
+
+        // inserir resolução
         daof.getResolucaoDAO().save(resolucao);
-        
+
+        // inserir as atividades
         daof.getAtividadeDAO().save(atividades);
-        
-        
-        //salvando os grupos
-        /**
-         * daof.getGrupoDAO().save(grupo1);
-         * daof.getGrupoDAO().save(subGrupo1_1);
-         * daof.getGrupoDAO().save(subGrupo1_2);
-         * daof.getGrupoDAO().save(grupo2);
-         * daof.getGrupoDAO().save(subGrupo2_1);
-         * daof.getGrupoDAO().save(subGrupo2_2);
-         * daof.getGrupoDAO().save(subGrupo2_3);
-         * daof.getGrupoDAO().save(subGrupo2_4);
-         * daof.getGrupoDAO().save(grupo3);
-         * daof.getGrupoDAO().save(subGrupo3_1);
-         * daof.getGrupoDAO().save(subGrupo3_2);
-         * daof.getGrupoDAO().save(grupo4);
-         * daof.getGrupoDAO().save(subGrupo4_1);
-         * daof.getGrupoDAO().save(subGrupo4_2);
-         * daof.getGrupoDAO().save(subGrupo4_3);
-         * daof.getGrupoDAO().save(subGrupo4_4);
-         * daof.getGrupoDAO().save(grupo5);
-         * daof.getGrupoDAO().save(subGrupo5_1);
-         * daof.getGrupoDAO().save(subGrupo5_2);
-         * daof.getGrupoDAO().save(subGrupo5_3);
-         */
     }
 }

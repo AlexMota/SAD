@@ -1,7 +1,6 @@
 package main;
 
 import br.ufg.es.sad.entity.Atividade;
-import br.ufg.es.sad.entity.AtividadeResolucao;
 import br.ufg.es.sad.entity.Grupo;
 import br.ufg.es.sad.entity.Resolucao;
 import br.ufg.es.sad.persistence.*;
@@ -14,18 +13,33 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        //TesteCadastroCompleta();
-        
-        //Selecionar os grupos Raiz
+
+        TesteResolucao.InserirResolucaoUfgCompleta();
+
+        selecionarTodosGruposRaiz();
+
+        selecionarAtividadeDaResolucao();
+    }
+
+    /**
+     * Selecionar todos grupos Raiz, que nao tem
+     */
+    public static void selecionarTodosGruposRaiz() {
+
         DAOFactory daof = DAOFactory.getFactory();
         List<Grupo> grupos = daof.getGrupoDAO().getGruposRaiz();
         for (Grupo grupo : grupos) {
             System.err.println(grupo.toString());
         }
-        
-        //Selecionar todas as atividades da resolução 1
-        Resolucao resolucao = daof.getResolucaoDAO().get(1);
-        
+    }
+
+    /**
+     * Selecionar todas as atividades da resolução x
+     */
+    public static void selecionarAtividadeDaResolucao() {
+        DAOFactory daof = DAOFactory.getFactory();
+        Resolucao resolucao = daof.getResolucaoDAO().getAll().get(0);
+
         List<Atividade> atividades = daof.getResolucaoDAO().getAllAtividades(resolucao);
         for (Atividade atividade : atividades) {
             System.err.println(atividade.toString());
@@ -41,7 +55,7 @@ public class Main {
      * <br>
      * Salvandos todas as atividades</p>
      */
-    public static void TesteCadastroCompleta() {
+    public static void TesteBasicoCadastro() {
 
         DAOFactory daof = DAOFactory.getFactory();
 
@@ -72,12 +86,6 @@ public class Main {
         // Salvando as atividades
         daof.getAtividadeDAO().save(atividade1);
         daof.getAtividadeDAO().save(atividade2);
-
-        // Consultas        
-        Resolucao res = daof.getResolucaoDAO().load(16);
-        for (AtividadeResolucao atividadeResolucao : res.getAtividadeResolucaos()) {
-            System.err.println(atividadeResolucao.getAtividade().toString());
-        }
     }
 
 }
