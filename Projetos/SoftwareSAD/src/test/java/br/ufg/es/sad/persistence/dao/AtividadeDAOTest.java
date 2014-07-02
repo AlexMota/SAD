@@ -1,7 +1,6 @@
 package br.ufg.es.sad.persistence.dao;
 
 import br.ufg.es.sad.entity.Atividade;
-import br.ufg.es.sad.entity.Grupo;
 import br.ufg.es.sad.entity.Resolucao;
 import br.ufg.es.sad.persistence.DAOFactory;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import junit.framework.TestCase;
 import org.hibernate.HibernateException;
 
 /**
- * http://www.adufg.org.br/dados/editor3/file/Resolucao_CONSUNI_2013_0032.pdf
  *
  * @author Phelipe Alves de Souza
  * @since 29/06/2014
@@ -19,6 +17,7 @@ import org.hibernate.HibernateException;
 public class AtividadeDAOTest extends TestCase {
 
     AtividadeDAO dao;
+    Resolucao resolucao;
 
     public AtividadeDAOTest(String testName) {
         super(testName);
@@ -27,22 +26,31 @@ public class AtividadeDAOTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        System.out.println("* iniciando: TestAtividadeDao");
+        System.out.println("Iniciando: " + getClass().getSimpleName());
+
         DAOFactory factory = DAOFactory.getFactory();
         dao = factory.getAtividadeDAO();
+
+        resolucao = new Resolucao("Resolução " + getClass().getSimpleName());
+        factory.getResolucaoDAO().save(resolucao);
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+        System.out.println("Finalizando: " + getClass().getSimpleName());
     }
 
     public void testDao() {
         assertNotNull(dao);
     }
+    
+    public void testResolucao() {
+        assertNotNull(resolucao);
+    }
 
     public void testSave() throws HibernateException {
-        Atividade atividade = new Atividade("Docente regularmente matriculado em curso de doutorado com relatórios de pós-graduação aprovados (pontuação por mês de curso)");
+        Atividade atividade = new Atividade("Docente regularmente matriculado em curso de doutorado com relatórios de pós-graduação aprovados (pontuação por mês de curso)", resolucao, 10);
 
         dao.save(atividade);
 
@@ -65,7 +73,7 @@ public class AtividadeDAOTest extends TestCase {
     }
 
     public void testGetById() throws HibernateException {
-        Atividade atividade = new Atividade("Iniciação cientifica");
+        Atividade atividade = new Atividade("Iniciação cientifica", resolucao, 10);
         dao.save(atividade);
         assertTrue(atividade.getId() > 0);
 
@@ -84,16 +92,16 @@ public class AtividadeDAOTest extends TestCase {
     }
 
     public void testDelete() throws HibernateException {
-        Atividade atividade = new Atividade("Publicadas em revistas científicas");
+        Atividade atividade = new Atividade("Publicadas em revistas científicas", resolucao, 10);
         dao.save(atividade);
 
         boolean deleted = dao.delete(atividade);
-
+        
         assertTrue(deleted);
     }
 
     public void testDeleteById() throws HibernateException {
-        Atividade atividade = new Atividade("Publicadas em revistas científicas");
+        Atividade atividade = new Atividade("Publicadas em revistas científicas", resolucao, 10);
         dao.save(atividade);
 
         boolean deleted = dao.deleteById(atividade.getId());
@@ -111,10 +119,10 @@ public class AtividadeDAOTest extends TestCase {
 
     private List<Atividade> getListAtividade() {
         List<Atividade> atividades = new ArrayList<Atividade>();
-        atividades.add(new Atividade("Membro de banca de concurso para docente efetivo"));
-        atividades.add(new Atividade("Em outra instituição"));
-        atividades.add(new Atividade("Membro de banca de concurso para docente substituto"));
-        atividades.add(new Atividade("Membro de corpo de júri"));
+        atividades.add(new Atividade("Membro de banca de concurso para docente efetivo", resolucao, 10));
+        atividades.add(new Atividade("Em outra instituição", resolucao, 10));
+        atividades.add(new Atividade("Membro de banca de concurso para docente substituto", resolucao, 10));
+        atividades.add(new Atividade("Membro de corpo de júri", resolucao, 10));
 
         return atividades;
     }

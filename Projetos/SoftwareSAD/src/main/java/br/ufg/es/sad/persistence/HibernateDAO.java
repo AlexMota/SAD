@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.classic.Session;
 
 /**
  *
@@ -26,12 +27,16 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
         this.persistentClass = persistentClass;
     }
 
+    public Session getSession() {
+        return HibernateUtil.getSession();
+    }
+
     public void beginTransaction() {
-        HibernateUtil.beginTransaction();
+        getSession().beginTransaction();
     }
 
     public void commitTransaction() {
-        HibernateUtil.commitTransaction();
+        getSession().getTransaction().commit();
     }
 
     public T load(Type id) throws EntityNotFoundException {
@@ -52,7 +57,7 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
 
     @Override
     public List<T> getAll() {
-        HibernateUtil.beginTransaction();
+        //HibernateUtil.beginTransaction();
         Criteria criteria = HibernateUtil.getSession().createCriteria(persistentClass);
         return criteria.list();
     }
@@ -60,8 +65,8 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
     @Override
     public void save(T object) throws HibernateException {
         beginTransaction();
-        HibernateUtil.getSession().saveOrUpdate(object);
-        HibernateUtil.getSession().flush();
+        getSession().saveOrUpdate(object);
+        getSession().flush();
         commitTransaction();
     }
 
@@ -87,7 +92,7 @@ public abstract class HibernateDAO<T, Type extends Serializable> implements Gene
     @Override
     public boolean deleteById(Type id) throws HibernateException {
         try {
-            T object = (T) HibernateUtil.getSession().get(persistentClass, id);
+            T object = (T) getSession().get(persistentClass, id);
             return delete(object);
         } catch (HibernateException e) {
             throw new HibernateException("Erro ao deletar: " + persistentClass.getSimpleName() + " id: " + id);

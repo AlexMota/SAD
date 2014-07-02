@@ -52,32 +52,40 @@ public class Grupo implements java.io.Serializable {
     public Grupo() {
     }
 
-    public Grupo(String nome) {
-        this.nome = nome;
-    }
-
-    public Grupo(String nome, Grupo grupo) {
-        this.nome = nome;
-        this.grupo = grupo;
-    }
-
-    public Grupo(String nome, Grupo grupo, Resolucao resolucao) {
-        this.nome = nome;
-        this.grupo = grupo;
+    /**
+     *
+     * @param resolucao
+     * @param nome
+     */
+    public Grupo(Resolucao resolucao, String nome) {
         this.resolucoes.add(resolucao);
-    }
-
-    public Grupo(String nome, Resolucao resolucao) {
         this.nome = nome;
-        this.resolucoes.add(resolucao);
     }
 
-    public Grupo(Grupo grupo, String nome, Set<Resolucao> resolucoes, Set<Atividade> atividades, Set<Grupo> grupos) {
+    /**
+     *
+     * @param resolucao
+     * @param grupo
+     * @param nome
+     */
+    public Grupo(Resolucao resolucao, Grupo grupo, String nome) {
+        this.resolucoes.add(resolucao);
         this.grupo = grupo;
         this.nome = nome;
-        this.resolucoes = resolucoes;
-        this.atividades = atividades;
+    }
+
+    /**
+     *
+     * @param resolucao
+     * @param grupo
+     * @param grupos
+     * @param nome
+     */
+    public Grupo(Resolucao resolucao, Grupo grupo, Set<Grupo> grupos, String nome) {
+        this.resolucoes.add(resolucao);
+        this.grupo = grupo;
         this.grupos = grupos;
+        this.nome = nome;
     }
 
     public Integer getId() {
@@ -122,14 +130,8 @@ public class Grupo implements java.io.Serializable {
         return this.atividades;
     }
 
-    public void setAtividades(Set<Atividade> atividades) {
-        this.atividades = atividades;
-    }
-
     public void addAtividade(Atividade atividade) {
-        if (atividade != null) {
-            this.atividades.add(atividade);
-        }
+        this.atividades.add(atividade);
     }
 
     public Set<Grupo> getGrupos() {
@@ -141,9 +143,7 @@ public class Grupo implements java.io.Serializable {
     }
 
     public void addGrupo(Grupo grupo) {
-        if (grupo != null) {
-            this.grupos.add(grupo);
-        }
+        this.grupos.add(grupo);
     }
 
     @Override

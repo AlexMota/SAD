@@ -6,9 +6,9 @@ import br.ufg.es.sad.persistence.DAOFactory;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
+import org.hibernate.HibernateException;
 
 /**
- * http://www.adufg.org.br/dados/editor3/file/Resolucao_CONSUNI_2013_0032.pdf
  *
  * @author Phelipe Alves de Souza
  * @since 29/06/2014
@@ -17,6 +17,7 @@ import junit.framework.TestCase;
 public class GrupoDAOTest extends TestCase {
 
     GrupoDAO dao;
+    Resolucao resolucao;
 
     public GrupoDAOTest(String testName) {
         super(testName);
@@ -25,25 +26,32 @@ public class GrupoDAOTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        System.out.println("* iniciando: GrupoDAOTest");
+        System.out.println("Iniciando: " + getClass().getSimpleName());
+
         DAOFactory factory = DAOFactory.getFactory();
         dao = factory.getGrupoDAO();
+        resolucao = new Resolucao("Resolução " + getClass().getSimpleName());
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        System.out.println("* finalizado: GrupoDAOTest");
+        System.out.println("Finalizando: " + getClass().getSimpleName());
     }
 
     public void testDao() {
         assertNotNull(dao);
     }
 
-    public void testSave() {
-        Grupo grupo = new Grupo("V - 2 Atividades Acadêmicas – Bancas e Cursos");
+    public void testResolucao() {
+        assertNotNull(resolucao);
+    }
+
+    public void testSave() throws HibernateException {
+        Grupo grupo = new Grupo(resolucao, "V - 2 Atividades Acadêmicas – Bancas e Cursos");
 
         dao.save(grupo);
+        System.out.println(grupo.toString());
 
         assertTrue(grupo.getId() > 0);
 
@@ -58,13 +66,13 @@ public class GrupoDAOTest extends TestCase {
 
         dao.save(grupos);
 
-        for (Grupo atividade : grupos) {
-            assertTrue(atividade.getId() > 0);
+        for (Grupo grupo : grupos) {
+            assertTrue(grupo.getId() > 0);
         }
     }
 
-    public void testGetById() {
-        Grupo grupo = new Grupo("Iniciação cientifica");
+    public void testGetById() throws HibernateException {
+        Grupo grupo = new Grupo(resolucao, "Iniciação cientifica");
         dao.save(grupo);
         assertTrue(grupo.getId() > 0);
 
@@ -74,7 +82,7 @@ public class GrupoDAOTest extends TestCase {
         assertEquals(persistido, grupo);
     }
 
-    public void testGetAll() {
+    public void testGetAll() throws HibernateException {
         dao.save(getListGrupos());
 
         List<Grupo> grupo = dao.getAll();
@@ -82,8 +90,8 @@ public class GrupoDAOTest extends TestCase {
         assertFalse(grupo.isEmpty());
     }
 
-    public void testDelete() {
-        Grupo grupo = new Grupo("Publicadas em revistas científicas");
+    public void testDelete() throws HibernateException {
+        Grupo grupo = new Grupo(resolucao, "Publicadas em revistas científicas");
         dao.save(grupo);
 
         boolean deleted = dao.delete(grupo);
@@ -91,8 +99,8 @@ public class GrupoDAOTest extends TestCase {
         assertTrue(deleted);
     }
 
-    public void testDeleteById() {
-        Grupo grupo = new Grupo("Publicadas em revistas científicas");
+    public void testDeleteById() throws HibernateException {
+        Grupo grupo = new Grupo(resolucao, "Publicadas em revistas científicas");
         dao.save(grupo);
 
         boolean deleted = dao.deleteById(grupo.getId());
@@ -100,7 +108,7 @@ public class GrupoDAOTest extends TestCase {
         assertTrue(deleted);
     }
 
-    public void testDeleteAll() {
+    public void testDeleteAll() throws HibernateException {
         dao.save(getListGrupos());
 
         boolean deleted = dao.deleteAll();
@@ -111,17 +119,18 @@ public class GrupoDAOTest extends TestCase {
     private List<Grupo> getListGrupos() {
         List<Grupo> grupos = new ArrayList<Grupo>();
 
-        Grupo grupo_a = new Grupo("ATIVIDADES DE ENSINO (Anexo II)");
-        Grupo grupo_a1 = new Grupo("Ensino de graduação", grupo_a);
-        Grupo grupo_a2 = new Grupo("Ensino de pós-graduação", grupo_a);
+        Grupo grupo_a = new Grupo(resolucao, "IV - ATIVIDADES ADMINISTRATIVAS E DE REPRESENTAÇÃO");
+        Grupo grupo_a1 = new Grupo(resolucao, grupo_a, "IV – 1 Direção e Função Gratificada ");
+        Grupo grupo_a2 = new Grupo(resolucao, grupo_a, "IV – 2 Atividades Administrativas");
         grupos.add(grupo_a1);
         grupos.add(grupo_a2);
 
-        Grupo grupo_b = new Grupo("PRODUÇÃO INTELECTUAL (Anexo II)");
-        Grupo grupo_b1 = new Grupo("Ensino de graduação", grupo_b);
-        Grupo grupo_b2 = new Grupo("Produção Científica", grupo_b);
-        Grupo grupo_b3 = new Grupo("Produção Técnica ou Tecnológica", grupo_b);
-        Grupo grupo_b4 = new Grupo("Outro Tipo de Produção", grupo_b);
+        Grupo grupo_b = new Grupo(resolucao, "PRODUÇÃO INTELECTUAL (Anexo II)");
+        Grupo grupo_b1 = new Grupo(resolucao, grupo_b, "Ensino de graduação");
+        Grupo grupo_b2 = new Grupo(resolucao, grupo_b, "Produção Científica");
+        Grupo grupo_b3 = new Grupo(resolucao, grupo_b, "Produção Técnica ou Tecnológica");
+        Grupo grupo_b4 = new Grupo(resolucao, grupo_b, "Outro Tipo de Produção");
+
         grupos.add(grupo_b1);
         grupos.add(grupo_b2);
         grupos.add(grupo_b3);
@@ -130,19 +139,4 @@ public class GrupoDAOTest extends TestCase {
         return grupos;
     }
 
-    public void testAtividadeDefault() {
-        Grupo grupo = getGrupoDefault();
-
-        dao.save(grupo);
-
-        Grupo persisted = dao.get(grupo.getId());
-        assertNotNull(persisted);
-        assertEquals(persisted, grupo);
-    }
-
-    private Grupo getGrupoDefault() {
-        Resolucao resolucao = new Resolucao("Resolucao 2014");
-        Grupo grupo = new Grupo("V - 2 Atividades Acadêmicas – Bancas e Cursos ", resolucao);
-        return grupo;
-    }
 }

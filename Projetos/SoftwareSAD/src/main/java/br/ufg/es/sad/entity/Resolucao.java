@@ -76,9 +76,7 @@ public class Resolucao implements java.io.Serializable {
     }
 
     public void addAtividadeResolucao(AtividadeResolucao atividadeResolucao) {
-        if (atividadeResolucao != null) {
-            this.atividadesResolucao.add(atividadeResolucao);
-        }
+        this.atividadesResolucao.add(atividadeResolucao);
     }
 
     /**
@@ -89,7 +87,7 @@ public class Resolucao implements java.io.Serializable {
      * @param valor
      */
     public void addAtividade(Atividade atividade, double valor) {
-        getAtividadeResolucaos().add(new AtividadeResolucao(atividade, this, valor));
+        this.atividadesResolucao.add(new AtividadeResolucao(atividade, this, valor));
     }
 
     public Set<Grupo> getGrupos() {
@@ -101,9 +99,7 @@ public class Resolucao implements java.io.Serializable {
     }
 
     public void addGrupo(Grupo grupo) {
-        if (grupo != null) {
-            this.grupos.add(grupo);
-        }
+        this.grupos.add(grupo);
     }
 
     @Override
@@ -133,6 +129,14 @@ public class Resolucao implements java.io.Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 37 * hash + (this.nome != null ? this.nome.hashCode() : 0);
+        return hash;
     }
 
 }

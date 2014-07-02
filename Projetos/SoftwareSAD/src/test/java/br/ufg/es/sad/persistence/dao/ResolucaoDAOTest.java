@@ -1,6 +1,5 @@
 package br.ufg.es.sad.persistence.dao;
 
-import br.ufg.es.sad.entity.Atividade;
 import br.ufg.es.sad.entity.Resolucao;
 import br.ufg.es.sad.persistence.DAOFactory;
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.List;
 import junit.framework.TestCase;
 
 /**
- * http://www.adufg.org.br/dados/editor3/file/Resolucao_CONSUNI_2013_0032.pdf
  *
  * @author Phelipe Alves de Souza
  * @since 29/06/2014
@@ -129,18 +127,5 @@ public class ResolucaoDAOTest extends TestCase {
     private Resolucao getResolucaoDefault() {
         final Resolucao resolucao = new Resolucao("Resolucao 2014");
         return resolucao;
-    }
-
-    public void testAddAtividadeResolucao() {
-        Resolucao resolucao = new Resolucao("Resolucao com atividade 01");
-        dao.save(resolucao);
-
-        resolucao.addAtividade(new Atividade("Atividade da resolução"), 2.5);
-
-        dao.save(resolucao);
-
-        Resolucao persisted = dao.get(resolucao.getId());
-        assertNotNull(persisted);
-        assertEquals(persisted, resolucao);
     }
 }

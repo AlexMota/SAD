@@ -62,10 +62,10 @@ public class ResolucaoTest {
         ResolucaoDAO resolucaoDAO = factory.getResolucaoDAO();
 
         Resolucao resolucao = new Resolucao("Ano com grupo");
-        resolucao.addGrupo(new Grupo("ATIVIDADES DE ENSINO"));
-        resolucao.addGrupo(new Grupo("PRODUÇÃO INTELECTUAL"));
-        resolucao.addGrupo(new Grupo("ATIVIDADES DE PESQUISA E EXTENSÃO"));
-        resolucao.addGrupo(new Grupo("ATIVIDADES ADMINISTRATIVAS E DE REPRESENTAÇÃO"));
+        resolucao.addGrupo(new Grupo(resolucao, "ATIVIDADES DE ENSINO"));
+        resolucao.addGrupo(new Grupo(resolucao, "PRODUÇÃO INTELECTUAL"));
+        resolucao.addGrupo(new Grupo(resolucao, "ATIVIDADES DE PESQUISA E EXTENSÃO"));
+        resolucao.addGrupo(new Grupo(resolucao, "ATIVIDADES ADMINISTRATIVAS E DE REPRESENTAÇÃO"));
 
         resolucaoDAO.save(resolucao);
 
@@ -82,20 +82,30 @@ public class ResolucaoTest {
      * TODO: Finalizar o teste
      */
     public static void test_ResolucaoTest_AdicionarAtivade() {
-        HibernateUtil.getSession().beginTransaction();               
+        HibernateUtil.getSession().beginTransaction();
+
+        Resolucao resolucao_1 = new Resolucao("Resolução com atividade 1");
+        Resolucao resolucao_2 = new Resolucao("Resolução com atividade 2");
+
+        HibernateUtil.getSession().save(resolucao_1);
+        HibernateUtil.getSession().save(resolucao_2);
+
+        System.out.println(resolucao_1.toString());
+        System.out.println(resolucao_2.toString());
+
+        Atividade atividade = new Atividade("Atividade na resolução", resolucao_1, 10);
+        atividade.addResolucao(resolucao_2, 29);
         
-        Atividade atividade = new Atividade("Atividade na resolução");
+        System.out.println(atividade.toString());
+
         HibernateUtil.getSession().save(atividade);
-        
-        Resolucao resolucao = new Resolucao("Resolução com atividade");
-        resolucao.addAtividade(atividade, 2.5);
-        
-        HibernateUtil.getSession().save(resolucao);
-        
+
+        System.out.println(atividade.toString());
+
         HibernateUtil.getSession().getTransaction().commit();
 
-        if (resolucao.getAtividadeResolucaos().size() == 1) {
-            for (AtividadeResolucao atr : resolucao.getAtividadeResolucaos()) {
+        if (resolucao_1.getAtividadeResolucaos().size() == 1) {
+            for (AtividadeResolucao atr : resolucao_1.getAtividadeResolucaos()) {
                 System.out.println(atr.toString());
             }
         } else {

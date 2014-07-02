@@ -29,22 +29,16 @@ public class Atividade implements java.io.Serializable {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
-    // @Cascade({CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "atividade_grupo", joinColumns = {
         @JoinColumn(name = "atividade_id", nullable = false, updatable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "grupo_id", nullable = false, updatable = false)})
     private Set<Grupo> grupos = new HashSet<Grupo>(0);
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = AtividadeResolucao.ATIVIDADE, cascade = CascadeType.ALL)
-    //@Cascade({CascadeType.ALL})
     private Set<AtividadeResolucao> atividadeResolucaos = new HashSet<AtividadeResolucao>(0);
 
     public Atividade() {
-    }
-
-    public Atividade(String nome) {
-        this.nome = nome;
     }
 
     public Atividade(String nome, Resolucao resolucao, double valor) {
@@ -89,9 +83,7 @@ public class Atividade implements java.io.Serializable {
     }
 
     public void addGrupo(Grupo grupo) {
-        if (grupo != null) {
-            this.grupos.add(grupo);
-        }
+        this.grupos.add(grupo);
     }
 
     public Set<AtividadeResolucao> getAtividadeResolucaos() {
@@ -113,7 +105,7 @@ public class Atividade implements java.io.Serializable {
      * @param valor valor da atividade na resoluçao
      */
     public void addResolucao(Resolucao resolucao, double valor) {
-        getAtividadeResolucaos().add(new AtividadeResolucao(this, resolucao, valor));
+        this.atividadeResolucaos.add(new AtividadeResolucao(this, resolucao, valor));
     }
 
     @Override
@@ -150,8 +142,6 @@ public class Atividade implements java.io.Serializable {
         int hash = 7;
         hash = 41 * hash + (this.id != null ? this.id.hashCode() : 0);
         hash = 41 * hash + (this.nome != null ? this.nome.hashCode() : 0);
-        hash = 41 * hash + (this.grupos != null ? this.grupos.hashCode() : 0);
-        hash = 41 * hash + (this.atividadeResolucaos != null ? this.atividadeResolucaos.hashCode() : 0);
         return hash;
     }
 
