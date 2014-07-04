@@ -113,7 +113,7 @@ public class Resolucao implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "ID: " + id + " NOME: " + nome;
+        return nome;
     }
 
     @Override
