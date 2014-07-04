@@ -8,19 +8,34 @@ package br.ufg.es.sad.avaliacao.model;
  */
 public class ThreadAvaliacao implements Runnable {
 
-    AvaliacaoListener avaliacaoListener;
+    int id;
 
-    public ThreadAvaliacao(AvaliacaoListener avaliacaoListener) {
-        this.avaliacaoListener = avaliacaoListener;
+    ThreadListener threadListener;
+
+    public ThreadAvaliacao(int id, ThreadListener threadListener) {
+        this.id = id;
+        this.threadListener = threadListener;
     }
 
     @Override
     public void run() {
+        // notificacar que a thread iniciou sua execução
+        threadListener.iniciada(id);
+
         int i = 1;
-        while (i < 100) {
-            // enviar a avaliação que acabou de ser realizada
-            avaliacaoListener.avaliacaoFinalizada(new Avaliacao());
+        while (i < 2000) {
+            // Processar a avaliação e 
+            // ......
+            // ......
+            // Enviar a avaliação que acabou de ser realizada
+            threadListener.avaliacaoRealizada(new Avaliacao("Professor " + id, "departamento " + id, 1280));
+
+            i++;
+            // ir para a proxima avaliação
         }
+
+        // notificacar que a thread finalizou sua execução
+        threadListener.finalizada(id);
     }
 
 }
