@@ -130,6 +130,7 @@
             <StringItem index="3" value="Item 4"/>
           </StringArray>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -140,6 +141,7 @@
     <Component class="javax.swing.JButton" name="buttonAvaliar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Avaliar"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
@@ -167,11 +169,11 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="labelTotal" min="-2" max="-2" attributes="0"/>
-                      <Component id="labelRodando" min="-2" max="-2" attributes="0"/>
-                      <Component id="labelFinalizadas" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelTotal" alignment="0" pref="93" max="32767" attributes="0"/>
+                      <Component id="labelRodando" max="32767" attributes="0"/>
+                      <Component id="labelFinalizadas" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="96" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

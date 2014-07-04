@@ -1,5 +1,9 @@
 package br.ufg.es.sad.avaliacao.model;
 
+import br.ufg.es.sad.entity.Atividade;
+import java.io.File;
+import java.util.List;
+
 /**
  *
  * @author Phelipe Alves de Souza
@@ -11,9 +15,13 @@ public class ThreadAvaliacao implements Runnable {
     int id;
 
     ThreadListener threadListener;
+    File[] files;
+    List<Atividade> atividades;
 
-    public ThreadAvaliacao(int id, ThreadListener threadListener) {
+    public ThreadAvaliacao(int id, File[] files, List<Atividade> atividades, ThreadListener threadListener) {
         this.id = id;
+        this.files = files;
+        this.atividades = atividades;
         this.threadListener = threadListener;
     }
 

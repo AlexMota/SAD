@@ -14,8 +14,12 @@ import br.ufg.es.sad.avaliacao.view.ViewAvaliacao;
 import br.ufg.es.sad.entity.Atividade;
 import br.ufg.es.sad.entity.Resolucao;
 import br.ufg.es.sad.persistence.DAOFactory;
+import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
 /**
@@ -53,6 +57,10 @@ public class ControllerViewAvaliacao implements ThreadListener {
     // Lista de atividades da resolução
     List<Atividade> atividades;
 
+    File[] filesAvaliacao;
+
+    private static final int FILES_POR_THREAD = 1000;
+
     public ControllerViewAvaliacao() {
         initView();
         initListeners();
@@ -85,7 +93,7 @@ public class ControllerViewAvaliacao implements ThreadListener {
         comboBoxResolucao = view.getComboBoxResolucao();
         tableResultado = view.getTableResolucao();
         tableModel = (DefaultTableModel) tableResultado.getModel();
-        
+
         buttonSelecionarArquivos = view.getButtonSelecionarArquivos();
         buttonAvaliar = view.getButtonAvaliar();
         buttonAvaliar.setEnabled(false);
@@ -94,13 +102,40 @@ public class ControllerViewAvaliacao implements ThreadListener {
     private void initListeners() {
         buttonSelecionarArquivos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
+                JFileChooser chooser = new JFileChooser();
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                chooser.setDialogTitle("Selecione diretório com os arquivos para avaliação");
+
+                int returnVal = chooser.showSaveDialog(view);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File directory = chooser.getSelectedFile();
+                    if (directory.isDirectory()) {
+                        // Listar arquivos json do diretório
+                        filesAvaliacao = directory.listFiles(new FileFilter() {
+
+                            public boolean accept(File pathname) {
+                                return pathname.getName().contains(".json");
+                            }
+                        });
+
+                        // Habilitar botao de iniciar avaliação
+                        if (filesAvaliacao.length > 0) {
+                            comboBoxResolucao.setEnabled(true);
+                        } else {
+                            comboBoxResolucao.setEnabled(false);
+                        }
+
+                    } else {
+                        System.err.println("Diretório inválido");
+                    }
+                }
             }
         });
-        
+
         buttonAvaliar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                criarThreads();
+                clearTable();
+                iniciarAvaliacao();
             }
         });
 
@@ -134,15 +169,55 @@ public class ControllerViewAvaliacao implements ThreadListener {
         comboBoxResolucao.setModel(new ComboBoxAdapter(resolucoes));
     }
 
-    private void criarThreads() {
-        int total = 10;        
-        labelTotal.setText(""+total);
-        
-        for (int i = 0; i < 10; i++) {
-            new Thread(new ThreadAvaliacao(i, ControllerViewAvaliacao.this)).start();
+    /**
+     * Criar as threads de avaliação Quebra a lista de arquivos em arrays
+     * contendo 1000 arquivos.
+     */
+    private void iniciarAvaliacao() {
+        buttonSelecionarArquivos.setEnabled(false);
+
+        // Verificando os arquivos do diretório selecionado
+        if (filesAvaliacao.length > 0) {
+            totalThreads = filesAvaliacao.length / FILES_POR_THREAD;
+            labelTotal.setText("" + totalThreads);
+
+            // Criar as sublista dos files selecionados em 1000 arquivos por array
+            for (int i = 0; i < totalThreads; i++) {
+                int from = i * FILES_POR_THREAD;
+                int to = from + FILES_POR_THREAD;
+                File[] copyOfRange = Arrays.copyOfRange(filesAvaliacao, from, to);
+
+                startThreadAvaliacao(i, copyOfRange, getAtividades());
+            }
+        } else {
+            System.err.println("Diretório não contem arquivos para avaliação");
         }
+
     }
 
+    private List<Atividade> getAtividades() {
+        if (atividades == null) {
+            try {
+                atividades = daof.getResolucaoDAO().getAllAtividades(resolucao);
+            } catch (Exception e) {
+                System.err.println("Erro ao selecionar as atividades da resolução " + resolucao.toString() + e.getMessage());
+            }
+            System.out.println(atividades);
+        }
+        return atividades;
+    }
+
+    /**
+     * Criar a thread para processar a avaliação a partir dos arquivos
+     *
+     * @param id
+     * @param files
+     */
+    private void startThreadAvaliacao(int id, File[] files, List<Atividade> atividades) {
+        new Thread(new ThreadAvaliacao(id, files, atividades, ControllerViewAvaliacao.this)).start();
+    }
+
+    @Override
     public void avaliacaoRealizada(Avaliacao avaliacao) {
         addItemTable(avaliacao);
     }
@@ -151,20 +226,35 @@ public class ControllerViewAvaliacao implements ThreadListener {
         tableModel.insertRow(0, new Object[]{avaliacao.getProfessor(), avaliacao.getDepartamento(), avaliacao.getTotal()});
     }
 
+    @Override
     public void iniciada(int id) {
         updateLabelThread(1, 0);
     }
 
+    @Override
     public void finalizada(int id) {
         updateLabelThread(-1, 1);
+
+        if (totalFinalizadas == totalThreads) {
+            buttonSelecionarArquivos.setEnabled(true);
+        }
     }
 
     private synchronized void updateLabelThread(int rodando, int finalizadas) {
         totalRodando += rodando;
         labelRodando.setText("" + totalRodando);
-        
+
         totalFinalizadas += finalizadas;
-        labelFinalizadas.setText(""+totalFinalizadas);
+        labelFinalizadas.setText("" + totalFinalizadas);
+    }
+
+    /**
+     * Remover todas as linhas da tabela
+     */
+    private void clearTable() {
+        while (!(tableModel.getRowCount() == 0)) {
+            tableModel.removeRow(0);
+        }
     }
 
 }
