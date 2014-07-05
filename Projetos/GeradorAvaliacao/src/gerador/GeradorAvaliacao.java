@@ -28,14 +28,14 @@ public class GeradorAvaliacao {
         Gerador gerador;
         FileWriter fileWriter = null;
         int cont;
-        Avaliacao aval;
+        ArquivoAvaliacao aval;
         Docente docente;
         gerador = new Gerador();
 
         for (int i = 0; i < quantRegistros; i++) {
             cont = i + 1;
             docente = new Docente(gerador.geradorNomeProf(), gerador.geradorDepartamento(), cont);
-            aval = new Avaliacao(docente, gerador.geradorAtividades());//Cria uma avaliação, que possui o registro de N docentes
+            aval = new ArquivoAvaliacao(docente, gerador.geradorAtividades());//Cria uma avaliação, que possui o registro de N docentes
 
             textoJsonAval = gson.toJson(aval);//tranforma o objeto em string Json
             try {

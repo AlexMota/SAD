@@ -10,12 +10,12 @@ import java.util.ArrayList;
  *
  * @author alunoinf
  */
-public class Avaliacao {
+public class ArquivoAvaliacao {
     
     Docente docente;
     ArrayList<AtividadeRealizada> atividades;
 
-    public Avaliacao(Docente docente, ArrayList<AtividadeRealizada> atividades) {
+    public ArquivoAvaliacao(Docente docente, ArrayList<AtividadeRealizada> atividades) {
         this.docente = docente;
         this.atividades = atividades;
     }

@@ -7,7 +7,7 @@ package leitor;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import gerador.Avaliacao;
+import gerador.ArquivoAvaliacao;
 import gerador.AtividadeRealizada;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class LeitorAvaliacao {
 
-    ArrayList<Avaliacao> avaliacoes;
+    ArrayList<ArquivoAvaliacao> avaliacoes;
     Gson gson;
 
     public LeitorAvaliacao() {
@@ -33,14 +33,14 @@ public class LeitorAvaliacao {
     public void lerJsonAvaliacao(int quantRegistros) {
         BufferedReader bufferedReader;
         int cont;
-        Avaliacao aval;
+        ArquivoAvaliacao aval;
         for (int i = 0; i < quantRegistros; i++) {
 
             cont = i + 1;
             try {
                 bufferedReader = new BufferedReader(new FileReader("json_files/avaliacoes/avaliacao_" + cont + ".json"));
                 //avaliacoes = gson.fromJson(bufferedReader, new TypeToken<ArrayList<Avaliacao>>() {}.getType());
-                aval = gson.fromJson(bufferedReader, Avaliacao.class);
+                aval = gson.fromJson(bufferedReader, ArquivoAvaliacao.class);
                 avaliacoes.add(aval);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(LeitorAvaliacao.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,7 +52,7 @@ public class LeitorAvaliacao {
 
     public void imprimirAvaliacoes() {
         ArrayList<AtividadeRealizada> atividades;
-        for (Avaliacao avaliacao : avaliacoes) {
+        for (ArquivoAvaliacao avaliacao : avaliacoes) {
             System.out.println("###################################");
             System.out.println("Professor: " + avaliacao.getDocente().getNome());
             System.out.println("Departamento: " + avaliacao.getDocente().getDepartamento());
