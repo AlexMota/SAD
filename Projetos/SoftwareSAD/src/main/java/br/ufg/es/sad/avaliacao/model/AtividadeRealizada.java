@@ -1,12 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufg.es.sad.avaliacao.model;
 
 /**
  *
- * @author alunoinf
+ * @author Phelipe Alves de Souza
+ * @since 03/07/2014
+ * @serial 0.1
  */
 public class AtividadeRealizada {
 

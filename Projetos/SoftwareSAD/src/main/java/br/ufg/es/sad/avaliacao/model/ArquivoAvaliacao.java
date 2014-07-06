@@ -1,17 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufg.es.sad.avaliacao.model;
 
 import java.util.ArrayList;
 
 /**
  *
- * @author alunoinf
+ * @author Phelipe Alves de Souza
+ * @since 03/07/2014
+ * @serial 0.1
  */
 public class ArquivoAvaliacao {
-    
+
     Docente docente;
     ArrayList<AtividadeRealizada> atividades;
 
@@ -20,8 +18,6 @@ public class ArquivoAvaliacao {
         this.atividades = atividades;
     }
 
-    
-    
     public Docente getDocente() {
         return docente;
     }
@@ -37,5 +33,5 @@ public class ArquivoAvaliacao {
     public void setAtividades(ArrayList<AtividadeRealizada> atividades) {
         this.atividades = atividades;
     }
-    
+
 }

@@ -1,6 +1,7 @@
 package br.ufg.es.sad.persistence.dao;
 
 import br.ufg.es.sad.entity.Atividade;
+import br.ufg.es.sad.entity.AtividadeResolucao;
 import br.ufg.es.sad.entity.Resolucao;
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface ResolucaoDAO extends GenericDAO<Resolucao, Integer> {
      * @return lista com todas as atividades
      */
     List<Atividade> getAllAtividades(Resolucao resolucao);
+    
+    List<AtividadeResolucao> getAllAtividadeResolucao(int resolucaoId);
 }

@@ -1,7 +1,7 @@
 package br.ufg.es.sad.avaliacao.model;
 
 import br.ufg.es.sad.entity.Atividade;
-import br.ufg.es.sad.entity.Resolucao;
+import br.ufg.es.sad.entity.AtividadeResolucao;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,63 +24,51 @@ public class ThreadAvaliacao implements Runnable {
 
     ThreadListener threadListener;
     File[] files;
-    List<Atividade> atividades;
+    List<AtividadeResolucao> atividades;
     Gson gson;
 
-    public ThreadAvaliacao(int id, File[] files, List<Atividade> atividades, ThreadListener threadListener) {
+    public ThreadAvaliacao(int id, File[] files, List<AtividadeResolucao> atividades, ThreadListener threadListener) {
         this.id = id;
         this.files = files;
         this.atividades = atividades;
         this.threadListener = threadListener;
         gson = new Gson();
-        
+
     }
 
     @Override
     public void run() {
         // notificacar que a thread iniciou sua execução
         threadListener.iniciada(id);
-         BufferedReader bufferedReader;
-         ArquivoAvaliacao arqAval;
-         ArrayList<AtividadeRealizada> atividadesRealizadas;
-         double somaValores;
-        for (int i = 0; i < files.length; i++) {
+        BufferedReader bufferedReader;
+        ArquivoAvaliacao arquivoAvaliacao;
+        ArrayList<AtividadeRealizada> atividadesRealizadas;
+        double somaValores;
+        for (File file : files) {
             somaValores = 0;
             try {
-                bufferedReader = new BufferedReader(new FileReader(files[i].toString()));
-                arqAval = gson.fromJson(bufferedReader, ArquivoAvaliacao.class);
-                atividadesRealizadas = arqAval.getAtividades();
+                // ler aquivo
+                bufferedReader = new BufferedReader(new FileReader(file.toString()));
+                // converter arquivo em objeto ArquivoAvaliacao.class
+                arquivoAvaliacao = gson.fromJson(bufferedReader, ArquivoAvaliacao.class);
+                // atividades do arquivo
+                atividadesRealizadas = arquivoAvaliacao.getAtividades();
                 for (AtividadeRealizada ativRealiz : atividadesRealizadas) {
-                    
-                    for (Atividade atividade : atividades) {
-                        
-                        if (ativRealiz.getId() == atividade.getId()) {
-                            somaValores += ativRealiz.getPeso();
+
+                    for (AtividadeResolucao atr : atividades) {
+                        if (ativRealiz.getId() == atr.getAtividade().getId()) {
+                            somaValores += atr.getValor() * ativRealiz.getPeso();
                             break;
                         }
                     }
-                    
+
                 }
-             threadListener.avaliacaoRealizada(new Avaliacao(arqAval.getDocente().getNome(), arqAval.getDocente().getDepartamento(), somaValores));
-                
+                threadListener.avaliacaoRealizada(new Avaliacao(arquivoAvaliacao.getDocente().getNome(), arquivoAvaliacao.getDocente().getDepartamento(), somaValores));
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(ThreadAvaliacao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-        //int i = 1;
-        //while (i < 2000) {
-            // Processar a avaliação e 
-            // ......
-            // ......
-            // Enviar a avaliação que acabou de ser realizada
-            //threadListener.avaliacaoRealizada(new Avaliacao("Professor " + id, "departamento " + id, 1280));
-
-            //i++;
-            // ir para a proxima avaliação
-        //}
-
-        // notificacar que a thread finalizou sua execução
         threadListener.finalizada(id);
     }
 

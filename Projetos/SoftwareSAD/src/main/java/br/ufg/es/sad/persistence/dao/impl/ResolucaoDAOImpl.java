@@ -6,10 +6,8 @@ import br.ufg.es.sad.entity.Resolucao;
 import br.ufg.es.sad.persistence.dao.ResolucaoDAO;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
-import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -30,16 +28,23 @@ public class ResolucaoDAOImpl extends GenericDAOImpl<Resolucao, Integer> impleme
         if (resolucao == null) {
             return null;
         } else {
-            Criteria crit = getSession().createCriteria(Resolucao.class);
-            crit.setFetchMode("atividadesResolucao", FetchMode.SELECT);
-            crit.add(Restrictions.idEq(resolucao.getId())).uniqueResult();
-
-            Resolucao result = (Resolucao) crit.uniqueResult();
+            List<AtividadeResolucao> atr = getAllAtividadeResolucao(resolucao.getId());
             List<Atividade> atividades = new ArrayList<Atividade>();
-            for (AtividadeResolucao atr : result.getAtividadeResolucaos()) {
-                atividades.add(atr.getAtividade());
+            for (AtividadeResolucao atividadeResolucao : atr) {
+                atividades.add(atividadeResolucao.getAtividade());
             }
             return atividades;
         }
+    }
+
+    public List<AtividadeResolucao> getAllAtividadeResolucao(int resolucaoId) {
+        Criteria crit = getSession().createCriteria(Resolucao.class);
+        crit.setFetchMode("atividadesResolucao", FetchMode.SELECT);
+        crit.add(Restrictions.idEq(resolucaoId)).uniqueResult();
+
+        Resolucao resolucao = (Resolucao) crit.uniqueResult();
+        List<AtividadeResolucao> resul = new ArrayList<AtividadeResolucao>();
+        resul.addAll(resolucao.getAtividadeResolucaos());
+        return resul;
     }
 }

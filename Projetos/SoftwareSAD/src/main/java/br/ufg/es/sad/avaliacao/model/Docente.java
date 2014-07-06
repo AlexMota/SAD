@@ -1,17 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.ufg.es.sad.avaliacao.model;
 
 /**
  *
  * @author Alexandre
+ * @since 04/07/2014
+ * @serial 0.1
  */
 public class Docente {
-    
+
     private String nome;
     private String departamento;
     private int id;
@@ -45,5 +41,5 @@ public class Docente {
     public void setId(int id) {
         this.id = id;
     }
-    
+
 }

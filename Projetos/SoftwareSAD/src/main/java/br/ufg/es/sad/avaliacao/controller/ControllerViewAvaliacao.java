@@ -1,26 +1,28 @@
 package br.ufg.es.sad.avaliacao.controller;
 
 import br.ufg.es.sad.avaliacao.model.Avaliacao;
-import br.ufg.es.sad.avaliacao.model.ThreadListener;
 import br.ufg.es.sad.avaliacao.model.ComboBoxAdapter;
 import br.ufg.es.sad.avaliacao.model.ThreadAvaliacao;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import br.ufg.es.sad.avaliacao.model.ThreadListener;
 import br.ufg.es.sad.avaliacao.view.ViewAvaliacao;
-import br.ufg.es.sad.entity.Atividade;
+import br.ufg.es.sad.entity.AtividadeResolucao;
 import br.ufg.es.sad.entity.Resolucao;
 import br.ufg.es.sad.persistence.DAOFactory;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -45,7 +47,7 @@ public class ControllerViewAvaliacao implements ThreadListener {
     int totalRodando = 0;
     int totalFinalizadas = 0;
 
-    // 
+    // ***************************
     DefaultTableModel tableModel;
 
     // Persistence
@@ -55,11 +57,13 @@ public class ControllerViewAvaliacao implements ThreadListener {
     Resolucao resolucao;
 
     // Lista de atividades da resolução
-    List<Atividade> atividades;
+    List<AtividadeResolucao> atividades;
 
+    // Arquivos de avaliacao do diretorio selecionado
     File[] filesAvaliacao;
 
-    private static final int FILES_POR_THREAD = 1000;
+    // Número de arquivos que devem ser processados por cada thread
+    private static final int FILES_POR_THREAD = 500;
 
     public ControllerViewAvaliacao() {
         initView();
@@ -96,7 +100,7 @@ public class ControllerViewAvaliacao implements ThreadListener {
 
         buttonSelecionarArquivos = view.getButtonSelecionarArquivos();
         buttonAvaliar = view.getButtonAvaliar();
-        buttonAvaliar.setEnabled(false);
+        disable(buttonAvaliar);
     }
 
     private void initListeners() {
@@ -120,13 +124,13 @@ public class ControllerViewAvaliacao implements ThreadListener {
 
                         // Habilitar botao de iniciar avaliação
                         if (filesAvaliacao.length > 0) {
-                            comboBoxResolucao.setEnabled(true);
+                            enable(comboBoxResolucao);
                         } else {
-                            comboBoxResolucao.setEnabled(false);
+                            disable(comboBoxResolucao);
                         }
 
                     } else {
-                        System.err.println("Diretório inválido");
+                        showMenssagem("Diretório inválido");
                     }
                 }
             }
@@ -134,7 +138,7 @@ public class ControllerViewAvaliacao implements ThreadListener {
 
         buttonAvaliar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearTable();
+                reset();
                 iniciarAvaliacao();
             }
         });
@@ -146,7 +150,7 @@ public class ControllerViewAvaliacao implements ThreadListener {
                     resolucao = (Resolucao) ie.getItem();
 
                     // após selecionar a resolução habilitar botão da avaliação
-                    buttonAvaliar.setEnabled(true);
+                    enable(buttonAvaliar);
                 }
             }
         });
@@ -164,45 +168,75 @@ public class ControllerViewAvaliacao implements ThreadListener {
         try {
             resolucoes = daof.getResolucaoDAO().getAll();
         } catch (Exception e) {
-            System.err.println("Erro ao selecionar as resoluções");
+            showMenssagem("Erro ao selecionar as resoluções");
         }
         comboBoxResolucao.setModel(new ComboBoxAdapter(resolucoes));
     }
 
     /**
      * Criar as threads de avaliação Quebra a lista de arquivos em arrays
-     * contendo 1000 arquivos.
+     * contendo x arquivos por thread.
      */
     private void iniciarAvaliacao() {
         buttonSelecionarArquivos.setEnabled(false);
 
         // Verificando os arquivos do diretório selecionado
         if (filesAvaliacao.length > 0) {
-            totalThreads = filesAvaliacao.length / FILES_POR_THREAD;
-            labelTotal.setText("" + totalThreads);
-
-            // Criar as sublista dos files selecionados em 1000 arquivos por array
-            for (int i = 0; i < totalThreads; i++) {
-                int from = i * FILES_POR_THREAD;
-                int to = from + FILES_POR_THREAD;
-                File[] copyOfRange = Arrays.copyOfRange(filesAvaliacao, from, to);
-
-                startThreadAvaliacao(i, copyOfRange, getAtividades());
+            for (File[] files : getListFiles()) {
+                startThreadAvaliacao(1, files, getAtividades());
             }
         } else {
-            System.err.println("Diretório não contem arquivos para avaliação");
+            showMenssagem("Diretório não contem arquivos para avaliação");
         }
 
     }
 
-    private List<Atividade> getAtividades() {
+    /**
+     * Processa a lista de arquivos selecionados, criando sublistas de acordo
+     * com a quantidade de arquivos que cada thread vai selecionar.
+     *
+     * @return
+     */
+    private List<File[]> getListFiles() {
+        List<File[]> filesThread = new ArrayList<File[]>();
+
+        totalThreads = filesAvaliacao.length / FILES_POR_THREAD;
+
+        boolean restoArquivos = (filesAvaliacao.length % FILES_POR_THREAD) != 0;
+        if (restoArquivos) {
+            totalThreads++;
+        }
+
+        labelTotal.setText("" + totalThreads);
+
+        int from = 0;
+        int to = 0;
+        // Criar as sublista dos files selecionados em 1000 arquivos por array
+        for (int i = 0; i < totalThreads; i++) {
+            boolean ultimaIteracao = (i == (totalThreads - 1));
+            if (ultimaIteracao && restoArquivos) {
+                from = to;
+                to = filesAvaliacao.length;
+            } else {
+                from = i * FILES_POR_THREAD;
+                to = from + FILES_POR_THREAD;
+            }
+
+            File[] copyOfRange = Arrays.copyOfRange(filesAvaliacao, from, to);
+            filesThread.add(copyOfRange);
+        }
+
+        return filesThread;
+    }
+
+    private List<AtividadeResolucao> getAtividades() {
         if (atividades == null) {
             try {
-                atividades = daof.getResolucaoDAO().getAllAtividades(resolucao);
+                atividades = daof.getResolucaoDAO().getAllAtividadeResolucao(resolucao.getId());
             } catch (Exception e) {
-                System.err.println("Erro ao selecionar as atividades da resolução " + resolucao.toString() + e.getMessage());
+                showMenssagem("Erro ao selecionar as atividades da resolução " + resolucao.toString());
+                disable(buttonAvaliar);
             }
-            System.out.println(atividades);
         }
         return atividades;
     }
@@ -213,39 +247,69 @@ public class ControllerViewAvaliacao implements ThreadListener {
      * @param id
      * @param files
      */
-    private void startThreadAvaliacao(int id, File[] files, List<Atividade> atividades) {
+    private void startThreadAvaliacao(int id, File[] files, List<AtividadeResolucao> atividades) {
         new Thread(new ThreadAvaliacao(id, files, atividades, ControllerViewAvaliacao.this)).start();
     }
 
+    int avaliacoesRealizadas = 0;
+
     @Override
     public void avaliacaoRealizada(Avaliacao avaliacao) {
-        addItemTable(avaliacao);
+        synchronized (this) {
+            addItemTable(avaliacao);
+            avaliacoesRealizadas++;
+        }
     }
 
-    public synchronized void addItemTable(Avaliacao avaliacao) {
+    /**
+     * Adicionar a avalição realizada pela thread na tabela
+     *
+     * @param avaliacao realizada pela thread
+     */
+    public void addItemTable(Avaliacao avaliacao) {
         tableModel.insertRow(0, new Object[]{avaliacao.getProfessor(), avaliacao.getDepartamento(), avaliacao.getTotal()});
     }
 
     @Override
     public void iniciada(int id) {
-        updateLabelThread(1, 0);
+        synchronized (this) {
+            updateLabelThread(1, 0);
+        }
     }
 
     @Override
     public void finalizada(int id) {
-        updateLabelThread(-1, 1);
+        synchronized (this) {
+            updateLabelThread(-1, 1);
 
-        if (totalFinalizadas == totalThreads) {
-            buttonSelecionarArquivos.setEnabled(true);
+            if (totalFinalizadas == totalThreads) {
+                enable(buttonSelecionarArquivos);
+            }
         }
     }
 
-    private synchronized void updateLabelThread(int rodando, int finalizadas) {
+    private void updateLabelThread(int rodando, int finalizadas) {
         totalRodando += rodando;
         labelRodando.setText("" + totalRodando);
 
         totalFinalizadas += finalizadas;
         labelFinalizadas.setText("" + totalFinalizadas);
+    }
+
+    /**
+     * Reiniciar os valores das variaves e dos componentes da view
+     */
+    private void reset() {
+        labelFinalizadas.setText("0");
+        labelRodando.setText("0");
+        labelTotal.setText("0");
+
+        clearTable();
+
+        totalFinalizadas = 0;
+        totalRodando = 0;
+        totalThreads = 0;
+
     }
 
     /**
@@ -257,4 +321,15 @@ public class ControllerViewAvaliacao implements ThreadListener {
         }
     }
 
+    private void showMenssagem(String menssagem) {
+        JOptionPane.showMessageDialog(view, menssagem);
+    }
+
+    private void enable(JComponent component) {
+        component.setEnabled(true);
+    }
+
+    private void disable(JComponent component) {
+        component.setEnabled(false);
+    }
 }
