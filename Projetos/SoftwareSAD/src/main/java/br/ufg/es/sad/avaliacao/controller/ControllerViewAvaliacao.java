@@ -125,10 +125,7 @@ public class ControllerViewAvaliacao implements ThreadListener {
                         // Habilitar botao de iniciar avaliação
                         if (filesAvaliacao.length > 0) {
                             enable(comboBoxResolucao);
-                        } else {
-                            disable(comboBoxResolucao);
                         }
-
                     } else {
                         showMenssagem("Diretório inválido");
                     }
@@ -178,14 +175,14 @@ public class ControllerViewAvaliacao implements ThreadListener {
      * contendo x arquivos por thread.
      */
     private void iniciarAvaliacao() {
-        buttonSelecionarArquivos.setEnabled(false);
 
         // Verificando os arquivos do diretório selecionado
         if (filesAvaliacao.length > 0) {
+            disable(buttonSelecionarArquivos);
             for (File[] files : getListFiles()) {
                 startThreadAvaliacao(1, files, getAtividades());
             }
-        } else {
+        } else {            
             showMenssagem("Diretório não contem arquivos para avaliação");
         }
 
