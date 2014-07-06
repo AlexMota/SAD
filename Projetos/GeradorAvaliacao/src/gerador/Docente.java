@@ -8,7 +8,8 @@ package gerador;
 
 /**
  *
- * @author Alexandre
+ * @author Alexandre Mota
+ * 
  */
 public class Docente {
     

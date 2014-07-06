@@ -6,7 +6,10 @@ package gerador;
 
 /**
  *
- * @author alunoinf
+ * @author Alexandre Mota
+ * Classe principal do gerador.
+ * Insira no parametro do método a quantidade
+ * de registros a serem gerados
  */
 public class Principal {
     

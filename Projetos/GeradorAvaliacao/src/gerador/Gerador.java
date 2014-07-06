@@ -17,7 +17,10 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author alunoinf
+ * @author Alexandre Mota
+ * Classe geradora dos dados presentes nos arquivos de avaliação.
+ * Os dados são gerados aleatoriamente com base em dados prsentes
+ * em arquivos json.
  */
 public class Gerador {
 

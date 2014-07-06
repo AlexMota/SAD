@@ -6,7 +6,7 @@ package gerador;
 
 /**
  *
- * @author alunoinf
+ * @author Alexandre Mota
  */
 public class AtividadeRealizada {
 

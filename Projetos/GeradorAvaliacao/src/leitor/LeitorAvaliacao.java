@@ -18,7 +18,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Alexandre
+ * @author Alexandre Mota
+ * Classe teste de leitura de arquivos Json
  */
 public class LeitorAvaliacao {
 

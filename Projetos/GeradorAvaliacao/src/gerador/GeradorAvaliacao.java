@@ -13,7 +13,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author alunoinf
+ * @author Alexandre Mota
+ * Clase geradora de lotes de arquivos referentes as avaliacoes.
  */
 public class GeradorAvaliacao {
 

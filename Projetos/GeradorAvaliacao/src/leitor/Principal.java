@@ -8,7 +8,9 @@ package leitor;
 
 /**
  *
- * @author Alexandre
+ * @author Alexandre Mota
+ * Classe principal do teste de leitura
+ * Insira a quantidade de arquivos a serem lidos
  */
 public class Principal {
     

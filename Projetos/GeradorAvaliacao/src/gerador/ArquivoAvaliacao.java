@@ -8,7 +8,9 @@ import java.util.ArrayList;
 
 /**
  *
- * @author alunoinf
+ * @author Alexandre Mota
+ * Classe referente a estrutura básica do arquivo Json
+ * Conteudo: um docente e as atividades realizadas;
  */
 public class ArquivoAvaliacao {
     
