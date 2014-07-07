@@ -96,6 +96,7 @@ public class ControllerViewAvaliacao implements ThreadListener {
 
         comboBoxResolucao = view.getComboBoxResolucao();
         tableResultado = view.getTableResolucao();
+        tableResultado.setAutoCreateRowSorter(true);
         tableModel = (DefaultTableModel) tableResultado.getModel();
 
         buttonSelecionarArquivos = view.getButtonSelecionarArquivos();
@@ -182,7 +183,7 @@ public class ControllerViewAvaliacao implements ThreadListener {
             for (File[] files : getListFiles()) {
                 startThreadAvaliacao(1, files, getAtividades());
             }
-        } else {            
+        } else {
             showMenssagem("Diretório não contem arquivos para avaliação");
         }
 
@@ -248,13 +249,10 @@ public class ControllerViewAvaliacao implements ThreadListener {
         new Thread(new ThreadAvaliacao(id, files, atividades, ControllerViewAvaliacao.this)).start();
     }
 
-    int avaliacoesRealizadas = 0;
-
     @Override
     public void avaliacaoRealizada(Avaliacao avaliacao) {
         synchronized (this) {
             addItemTable(avaliacao);
-            avaliacoesRealizadas++;
         }
     }
 
@@ -264,7 +262,7 @@ public class ControllerViewAvaliacao implements ThreadListener {
      * @param avaliacao realizada pela thread
      */
     public void addItemTable(Avaliacao avaliacao) {
-        tableModel.insertRow(0, new Object[]{avaliacao.getProfessor(), avaliacao.getDepartamento(), avaliacao.getTotal()});
+        tableModel.insertRow(0, new Object[]{avaliacao.getId(), avaliacao.getProfessor(), avaliacao.getDepartamento(), avaliacao.getTotal()});
     }
 
     @Override
@@ -281,6 +279,7 @@ public class ControllerViewAvaliacao implements ThreadListener {
 
             if (totalFinalizadas == totalThreads) {
                 enable(buttonSelecionarArquivos);
+                showMenssagem("Total de avaliações: " + tableModel.getRowCount());
             }
         }
     }
@@ -306,7 +305,6 @@ public class ControllerViewAvaliacao implements ThreadListener {
         totalFinalizadas = 0;
         totalRodando = 0;
         totalThreads = 0;
-
     }
 
     /**

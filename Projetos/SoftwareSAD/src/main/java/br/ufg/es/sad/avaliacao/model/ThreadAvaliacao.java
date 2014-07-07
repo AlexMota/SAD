@@ -63,7 +63,7 @@ public class ThreadAvaliacao implements Runnable {
                     }
 
                 }
-                threadListener.avaliacaoRealizada(new Avaliacao(arquivoAvaliacao.getDocente().getNome(), arquivoAvaliacao.getDocente().getDepartamento(), somaValores));
+                threadListener.avaliacaoRealizada(new Avaliacao(arquivoAvaliacao.getDocente().getId(), arquivoAvaliacao.getDocente().getNome(), arquivoAvaliacao.getDocente().getDepartamento(), somaValores));
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(ThreadAvaliacao.class.getName()).log(Level.SEVERE, null, ex);
             }

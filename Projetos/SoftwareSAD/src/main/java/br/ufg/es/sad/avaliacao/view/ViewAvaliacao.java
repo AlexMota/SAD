@@ -51,11 +51,11 @@ public class ViewAvaliacao extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Professor", "Departamento", "Total"
+                "ID", "Professor", "Departamento", "Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                true, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

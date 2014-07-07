@@ -8,11 +8,13 @@ package br.ufg.es.sad.avaliacao.model;
  */
 public class Avaliacao {
 
+    Integer id;
     String professor;
     String departamento;
     Double total;
 
-    public Avaliacao(String professor, String departamento, double total) {
+    public Avaliacao(Integer id, String professor, String departamento, double total) {
+        this.id = id;
         this.professor = professor;
         this.departamento = departamento;
         this.total = total;
@@ -21,6 +23,14 @@ public class Avaliacao {
     public Avaliacao(String professor, String departamento) {
         this.professor = professor;
         this.departamento = departamento;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getProfessor() {
